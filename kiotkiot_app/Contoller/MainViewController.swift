@@ -8,11 +8,12 @@
 import UIKit
 import SnapKit
 import SwiftUI
-
+import Alamofire
 
 
 class MainViewController: UICollectionViewController {
     // MARK: Properties
+    let url = "https://weather-recommendation-backend-jr4xx26f5q-du.a.run.app/weather/?latitude=127.032014&longitude=37.5089772"
    
     
     // MARK: Lifecycles
@@ -20,6 +21,9 @@ class MainViewController: UICollectionViewController {
         super.viewDidLoad()
         view.backgroundColor = .white
         collectionView.backgroundColor = .white
+        
+        getWeatherData()
+        
         configureNavBar()
         configureUI()
         
@@ -28,6 +32,19 @@ class MainViewController: UICollectionViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+    }
+    
+    // MARK: - Apis
+    func getWeatherData() {
+        AF.request(url, method: .get, parameters: nil, encoding: URLEncoding.default, headers: ["Content-Type":"application/json", "Accept":"application/json"]).validate(statusCode: 200..<300).responseJSON { response in
+            switch response.result {
+                
+            case .success(let data):
+                printDebug(data)
+            case .failure(let error):
+                printDebug(error)
+            }
+        }
     }
     
     // MARK: Selectors

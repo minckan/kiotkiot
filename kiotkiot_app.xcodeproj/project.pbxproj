@@ -31,6 +31,7 @@
 		8CADE1102A305FD4005AF17A /* Weather.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CADE10F2A305FD4005AF17A /* Weather.swift */; };
 		8CADE1122A306ADC005AF17A /* View.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CADE1112A306ADC005AF17A /* View.swift */; };
 		8CADE1142A30730E005AF17A /* Preview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CADE1132A30730E005AF17A /* Preview.swift */; };
+		8CADE1172A30848D005AF17A /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 8CADE1162A30848D005AF17A /* Alamofire */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -67,6 +68,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8C568F782A2DD32600A925BF /* SnapKit in Frameworks */,
+				8CADE1172A30848D005AF17A /* Alamofire in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -202,6 +204,7 @@
 			name = kiotkiot_app;
 			packageProductDependencies = (
 				8C568F772A2DD32600A925BF /* SnapKit */,
+				8CADE1162A30848D005AF17A /* Alamofire */,
 			);
 			productName = kiotkiot_app;
 			productReference = 8C568F492A2DA53800A925BF /* kiotkiot_app.app */;
@@ -233,6 +236,7 @@
 			mainGroup = 8C568F402A2DA53800A925BF;
 			packageReferences = (
 				8C568F762A2DD32600A925BF /* XCRemoteSwiftPackageReference "SnapKit" */,
+				8CADE1152A30848D005AF17A /* XCRemoteSwiftPackageReference "Alamofire" */,
 			);
 			productRefGroup = 8C568F4A2A2DA53800A925BF /* Products */;
 			projectDirPath = "";
@@ -516,6 +520,14 @@
 				kind = branch;
 			};
 		};
+		8CADE1152A30848D005AF17A /* XCRemoteSwiftPackageReference "Alamofire" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Alamofire/Alamofire.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.0.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -523,6 +535,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 8C568F762A2DD32600A925BF /* XCRemoteSwiftPackageReference "SnapKit" */;
 			productName = SnapKit;
+		};
+		8CADE1162A30848D005AF17A /* Alamofire */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 8CADE1152A30848D005AF17A /* XCRemoteSwiftPackageReference "Alamofire" */;
+			productName = Alamofire;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
