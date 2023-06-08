@@ -9,24 +9,31 @@ import UIKit
 import SnapKit
 import SwiftUI
 import Alamofire
-
+import TAKUUID
+import CoreLocation
 
 class MainViewController: UICollectionViewController {
     // MARK: Properties
-    let url = "https://weather-recommendation-backend-jr4xx26f5q-du.a.run.app/weather/?latitude=127.032014&longitude=37.5089772"
-   
+    
+    var locationManager = CLLocationManager()
+    private var currentPosition:Position? {
+        didSet {
+            getWeatherData()
+        }
+    }
+    private var weatherInfo : WeatherInfo? {
+        didSet {
+        }
+    }
     
     // MARK: Lifecycles
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .white
-        collectionView.backgroundColor = .white
+        registerUUID()
+        getCurrentPosition()
         
-        getWeatherData()
-        
-        configureNavBar()
         configureUI()
-        
+        configureNavBar()
         setupCollectionView()
     }
     
@@ -35,15 +42,28 @@ class MainViewController: UICollectionViewController {
     }
     
     // MARK: - Apis
-    func getWeatherData() {
-        AF.request(url, method: .get, parameters: nil, encoding: URLEncoding.default, headers: ["Content-Type":"application/json", "Accept":"application/json"]).validate(statusCode: 200..<300).responseJSON { response in
-            switch response.result {
-                
-            case .success(let data):
-                printDebug(data)
-            case .failure(let error):
-                printDebug(error)
+    func registerUUID() {
+        if let id = TAKUUIDStorage.sharedInstance().findOrCreate() {
+            saveData(key: Const.shared.UUID, value: id)
+        } else {
+            guard let uuid = createAndGetUUID() else {return}
+            printDebug(uuid)
+            
+            UserService.shared.registerDeviceId(uuid: uuid) {
+                printDebug("registerDeviceId successed!")
+            } errorHandler: { error in
+                printDebug("error orccured. \(error)")
             }
+        }
+    }
+    
+    
+    func getWeatherData() {
+        guard let position = currentPosition else {return}
+        WeatherService.shared.fetchWeatherData(pos: position) { weatherInfo  in
+            self.weatherInfo = weatherInfo
+            printDebug(weatherInfo.fcs_weathers)
+            self.collectionView.reloadData()
         }
     }
     
@@ -67,6 +87,7 @@ class MainViewController: UICollectionViewController {
 
     
     // MARK: Helpers
+    
     func setupCollectionView() {
         collectionView.delegate = self
         collectionView.dataSource = self
@@ -79,7 +100,8 @@ class MainViewController: UICollectionViewController {
         
     }
     func configureUI() {
-        
+        view.backgroundColor = .white
+        collectionView.backgroundColor = .white
         
     }
     
@@ -113,7 +135,19 @@ class MainViewController: UICollectionViewController {
     }
     
    
-
+    func getCurrentPosition() {
+        locationManager.delegate = self
+        locationManager.desiredAccuracy = kCLLocationAccuracyBest
+        locationManager.requestWhenInUseAuthorization()
+        
+        if CLLocationManager.locationServicesEnabled() {
+            print("DEBUG: 위치 서비스 on")
+            locationManager.startUpdatingLocation()
+       
+        } else {
+            print("DEBUG: 위치 서비스 off")
+        }
+    }
 }
 
 extension MainViewController {
@@ -123,6 +157,10 @@ extension MainViewController {
     
     override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: MainViewHeader.identifier, for: indexPath) as! MainViewHeader
+        
+        if let weatherInfo = weatherInfo {
+            header.weatherInfo = weatherInfo
+        }
         
         return header
     }
@@ -190,3 +228,14 @@ extension MainViewController {
 }
 
 
+extension MainViewController : CLLocationManagerDelegate {
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+
+        if let location = locations.first {
+            currentPosition = Position(lat: location.coordinate.latitude, lon: location.coordinate.longitude)
+        }
+    }
+    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+        printDebug(error.localizedDescription)
+    }
+}
