@@ -11,28 +11,31 @@ class MainViewHeader : UICollectionReusableView {
     // MARK: - Properties
     static let identifier = "MainViewHeader"
     
+    var weatherInfo: WeatherInfo? {
+        didSet {
+            setData()
+        }
+    }
+    
     private let gpsButton : UIButton = {
-        let button = UIButton()
-        button.setImage(UIImage(named: "gps2")?.withTintColor(.black), for: .normal)
+        let button = UIButton(type: .system)
+        button.setImage(UIImage(named: "gps2")?.withTintColor(.black).withRenderingMode(.alwaysOriginal), for: .normal)
         button.snp.makeConstraints { make in
             make.width.height.equalTo(20)
         }
-        button.addTarget(MainViewController.self, action: #selector(handleGPSButtonTapped), for: .touchUpInside)
+        button.addTarget(self, action: #selector(handleGPSButtonTapped), for: .touchUpInside)
         return button
     }()
     private let locationLabel : UILabel = {
         let label = UILabel()
         label.textColor = .darkText
         
-        let attributedString = NSMutableAttributedString(string: "강남구 논현동, ", attributes: [.font: UIFont(name: FontNeo.bold.rawValue, size: 18) ?? UIFont.boldSystemFont(ofSize: 18), .foregroundColor: UIColor.darkText])
-        attributedString.append(NSAttributedString(string: "서울", attributes: [.font: UIFont(name: FontNeo.light.rawValue, size: 16) ?? UIFont.systemFont(ofSize: 18), .foregroundColor: UIColor.darkText]))
         
-        label.attributedText = attributedString
         
         return label
     }()
     
-    private let weatherView = TodaysWeatherView()
+    private var weatherView : TodaysWeatherView?
     private let todaysWeatherList = TodaysWeatherListView(frame: .zero)
     
     private let todaysWeatherListLabel: UILabel = {
@@ -54,8 +57,7 @@ class MainViewHeader : UICollectionReusableView {
     // MARK: - Lifecycles
     override init(frame: CGRect) {
         super.init(frame: frame)
-        
-        configureUI()
+    
     }
     
     required init?(coder: NSCoder) {
@@ -68,7 +70,7 @@ class MainViewHeader : UICollectionReusableView {
     }
     
     // MARK: - Helpers
-    func configureUI() {
+    private func configureUI() {
         let locatioStack = UIStackView(arrangedSubviews: [gpsButton, locationLabel])
         locatioStack.spacing = 5
         locatioStack.axis = .horizontal
@@ -78,6 +80,8 @@ class MainViewHeader : UICollectionReusableView {
             make.top.equalTo(safeAreaLayoutGuide).offset(10)
             make.left.equalTo(self)
         }
+        
+        guard let weatherView = weatherView else {return}
         
         addSubview(weatherView)
         weatherView.snp.makeConstraints { make in
@@ -104,5 +108,18 @@ class MainViewHeader : UICollectionReusableView {
             make.top.equalTo(todaysWeatherList.snp.bottom).offset(20)
             make.left.right.equalTo(self)
         }
+    }
+    
+    private func setData() {
+        guard let weatherInfo = weatherInfo else {return}
+        let viewModel = WeatherInfoViewModel(weatherInfo: weatherInfo)
+        
+        locationLabel.attributedText = viewModel.locationLabelText
+        
+        let weather = Weather(weatherImg: UIImage(named: Weathers.sunshine.rawValue)!, temperature: 15, time: "14")
+        
+        weatherView = TodaysWeatherView(weather: weather)
+        
+        configureUI()
     }
 }

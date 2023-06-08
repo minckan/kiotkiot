@@ -24,6 +24,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //        if #available(iOS 15.0, *) {
 //            appearance.compactScrollEdgeAppearance = newNavBarAppearance
 //        }
+        
         return true
     }
 

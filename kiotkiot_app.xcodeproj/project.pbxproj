@@ -7,6 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8C4F057B2A315E20003BBB70 /* TAKUUID in Frameworks */ = {isa = PBXBuildFile; productRef = 8C4F057A2A315E20003BBB70 /* TAKUUID */; };
+		8C4F057E2A3163EB003BBB70 /* UserService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C4F057D2A3163EB003BBB70 /* UserService.swift */; };
+		8C4F05802A316478003BBB70 /* Constant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C4F057F2A316478003BBB70 /* Constant.swift */; };
+		8C4F05822A31945C003BBB70 /* WeatherService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C4F05812A31945C003BBB70 /* WeatherService.swift */; };
+		8C4F05842A319645003BBB70 /* Position.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C4F05832A319645003BBB70 /* Position.swift */; };
+		8C4F05862A31B28F003BBB70 /* Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C4F05852A31B28F003BBB70 /* Date.swift */; };
+		8C4F05882A31B5FE003BBB70 /* WeatherInfoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C4F05872A31B5FE003BBB70 /* WeatherInfoViewModel.swift */; };
 		8C568F4D2A2DA53800A925BF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C568F4C2A2DA53800A925BF /* AppDelegate.swift */; };
 		8C568F4F2A2DA53800A925BF /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C568F4E2A2DA53800A925BF /* SceneDelegate.swift */; };
 		8C568F512A2DA53800A925BF /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C568F502A2DA53800A925BF /* MainViewController.swift */; };
@@ -35,6 +42,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		8C4F057C2A315E46003BBB70 /* kiotkiot_app.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = kiotkiot_app.entitlements; sourceTree = "<group>"; };
+		8C4F057D2A3163EB003BBB70 /* UserService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserService.swift; sourceTree = "<group>"; };
+		8C4F057F2A316478003BBB70 /* Constant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constant.swift; sourceTree = "<group>"; };
+		8C4F05812A31945C003BBB70 /* WeatherService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherService.swift; sourceTree = "<group>"; };
+		8C4F05832A319645003BBB70 /* Position.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Position.swift; sourceTree = "<group>"; };
+		8C4F05852A31B28F003BBB70 /* Date.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Date.swift; sourceTree = "<group>"; };
+		8C4F05872A31B5FE003BBB70 /* WeatherInfoViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherInfoViewModel.swift; sourceTree = "<group>"; };
 		8C568F492A2DA53800A925BF /* kiotkiot_app.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = kiotkiot_app.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8C568F4C2A2DA53800A925BF /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		8C568F4E2A2DA53800A925BF /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -67,6 +81,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8C4F057B2A315E20003BBB70 /* TAKUUID in Frameworks */,
 				8C568F782A2DD32600A925BF /* SnapKit in Frameworks */,
 				8CADE1172A30848D005AF17A /* Alamofire in Frameworks */,
 			);
@@ -94,6 +109,7 @@
 		8C568F4B2A2DA53800A925BF /* kiotkiot_app */ = {
 			isa = PBXGroup;
 			children = (
+				8C4F057C2A315E46003BBB70 /* kiotkiot_app.entitlements */,
 				8C568F6B2A2DD02F00A925BF /* Font */,
 				8C568F662A2DBB3000A925BF /* Extensions */,
 				8C568F602A2DA58000A925BF /* View */,
@@ -128,6 +144,7 @@
 			isa = PBXGroup;
 			children = (
 				8CADE10F2A305FD4005AF17A /* Weather.swift */,
+				8C4F05832A319645003BBB70 /* Position.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -135,6 +152,8 @@
 		8C568F622A2DA58E00A925BF /* API */ = {
 			isa = PBXGroup;
 			children = (
+				8C4F057D2A3163EB003BBB70 /* UserService.swift */,
+				8C4F05812A31945C003BBB70 /* WeatherService.swift */,
 			);
 			path = API;
 			sourceTree = "<group>";
@@ -142,6 +161,7 @@
 		8C568F632A2DA59C00A925BF /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
+				8C4F05872A31B5FE003BBB70 /* WeatherInfoViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -152,6 +172,7 @@
 				8C568F792A2DD64D00A925BF /* Helpers.swift */,
 				8C568F7D2A2DDC1900A925BF /* Fonts.swift */,
 				8CADE1132A30730E005AF17A /* Preview.swift */,
+				8C4F057F2A316478003BBB70 /* Constant.swift */,
 			);
 			path = Util;
 			sourceTree = "<group>";
@@ -170,6 +191,7 @@
 				8C568F672A2DBB5200A925BF /* Navigation.swift */,
 				8C568F692A2DCB9500A925BF /* Color.swift */,
 				8CADE1112A306ADC005AF17A /* View.swift */,
+				8C4F05852A31B28F003BBB70 /* Date.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -205,6 +227,7 @@
 			packageProductDependencies = (
 				8C568F772A2DD32600A925BF /* SnapKit */,
 				8CADE1162A30848D005AF17A /* Alamofire */,
+				8C4F057A2A315E20003BBB70 /* TAKUUID */,
 			);
 			productName = kiotkiot_app;
 			productReference = 8C568F492A2DA53800A925BF /* kiotkiot_app.app */;
@@ -237,6 +260,7 @@
 			packageReferences = (
 				8C568F762A2DD32600A925BF /* XCRemoteSwiftPackageReference "SnapKit" */,
 				8CADE1152A30848D005AF17A /* XCRemoteSwiftPackageReference "Alamofire" */,
+				8C4F05792A315E20003BBB70 /* XCRemoteSwiftPackageReference "TAKUUID" */,
 			);
 			productRefGroup = 8C568F4A2A2DA53800A925BF /* Products */;
 			projectDirPath = "";
@@ -271,6 +295,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8C568F7E2A2DDC1900A925BF /* Fonts.swift in Sources */,
+				8C4F05802A316478003BBB70 /* Constant.swift in Sources */,
 				8C568F7C2A2DD8D900A925BF /* TodaysWeatherView.swift in Sources */,
 				8C568F512A2DA53800A925BF /* MainViewController.swift in Sources */,
 				8C568F7A2A2DD64D00A925BF /* Helpers.swift in Sources */,
@@ -279,11 +304,16 @@
 				8CADE10A2A301559005AF17A /* TodaysWeatherListViewCell.swift in Sources */,
 				8CADE1142A30730E005AF17A /* Preview.swift in Sources */,
 				8C568F4F2A2DA53800A925BF /* SceneDelegate.swift in Sources */,
+				8C4F05822A31945C003BBB70 /* WeatherService.swift in Sources */,
+				8C4F05862A31B28F003BBB70 /* Date.swift in Sources */,
 				8CADE1102A305FD4005AF17A /* Weather.swift in Sources */,
 				8CADE1082A3012D8005AF17A /* TodaysWeatherListView.swift in Sources */,
 				8CADE10E2A302190005AF17A /* MainViewProductCell.swift in Sources */,
+				8C4F05882A31B5FE003BBB70 /* WeatherInfoViewModel.swift in Sources */,
+				8C4F057E2A3163EB003BBB70 /* UserService.swift in Sources */,
 				8C568F6A2A2DCB9500A925BF /* Color.swift in Sources */,
 				8CADE1122A306ADC005AF17A /* View.swift in Sources */,
+				8C4F05842A319645003BBB70 /* Position.swift in Sources */,
 				8C568F682A2DBB5200A925BF /* Navigation.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -429,6 +459,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = kiotkiot_app/kiotkiot_app.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = CRP9DD5ZP3;
@@ -461,6 +492,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = kiotkiot_app/kiotkiot_app.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = CRP9DD5ZP3;
@@ -512,6 +544,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		8C4F05792A315E20003BBB70 /* XCRemoteSwiftPackageReference "TAKUUID" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/taka0125/TAKUUID.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.0;
+			};
+		};
 		8C568F762A2DD32600A925BF /* XCRemoteSwiftPackageReference "SnapKit" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/SnapKit/SnapKit.git";
@@ -531,6 +571,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		8C4F057A2A315E20003BBB70 /* TAKUUID */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 8C4F05792A315E20003BBB70 /* XCRemoteSwiftPackageReference "TAKUUID" */;
+			productName = TAKUUID;
+		};
 		8C568F772A2DD32600A925BF /* SnapKit */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 8C568F762A2DD32600A925BF /* XCRemoteSwiftPackageReference "SnapKit" */;

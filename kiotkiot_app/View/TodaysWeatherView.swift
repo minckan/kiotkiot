@@ -9,6 +9,7 @@ import UIKit
 
 class TodaysWeatherView : UIView {
     // MARK: - Properties
+    var weather : Weather?
     
     private let weatherImage : UIImageView = {
         let iv = UIImageView()
@@ -106,6 +107,15 @@ class TodaysWeatherView : UIView {
 //            make.top.bottom.equalTo(self).inset(20)
 //            make.left.right.equalTo(self).inset(30)
 //        }
+        
+    }
+    
+    convenience init(weather: Weather) {
+        self.init(frame: .zero)
+        
+        self.weather = weather
+      
+       
         
     }
     

@@ -6,6 +6,12 @@
 //
 
 import UIKit
+import TAKUUID
+
+func createAndGetUUID() -> String? {
+    TAKUUIDStorage.sharedInstance().migrate()
+    return TAKUUIDStorage.sharedInstance().findOrCreate()
+}
 
 func getFontName() {
     for family in UIFont.familyNames {
