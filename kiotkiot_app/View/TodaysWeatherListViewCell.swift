@@ -60,6 +60,10 @@ class TodaysWeatherListViewCell : UICollectionViewCell {
     private func configureUI() {
         layer.cornerRadius = 10
         
+        contentView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
+        
         let stack = UIStackView(arrangedSubviews: [timeLabel, weatherImageView, temperatreLabel])
         stack.axis = .vertical
         stack.distribution = .equalCentering

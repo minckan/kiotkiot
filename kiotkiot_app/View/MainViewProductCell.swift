@@ -23,8 +23,11 @@ class MainViewProductCell : UICollectionViewCell {
         iv.image = UIImage(named: "pants")
         iv.layer.cornerRadius = 15
         iv.contentMode = .scaleAspectFill
+        iv.layer.masksToBounds = true
         iv.clipsToBounds = true
         
+        
+    
         return iv
     }()
     
@@ -42,11 +45,18 @@ class MainViewProductCell : UICollectionViewCell {
         
 //        backgroundColor = .weatherGray
         
+        contentView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
+        
         addSubview(productImageView)
         productImageView.snp.makeConstraints { make in
             make.top.left.right.equalTo(contentView)
             make.height.equalTo(220)
         }
+        
+        
+        
         
         addSubview(tagLabel)
         tagLabel.snp.makeConstraints { make in

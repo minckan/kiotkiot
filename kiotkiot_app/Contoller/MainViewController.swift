@@ -11,13 +11,18 @@ import SwiftUI
 import Alamofire
 import TAKUUID
 import CoreLocation
+import WebKit
 
 class MainViewController: UICollectionViewController {
     // MARK: Properties
     
+  
+    
     var locationManager = CLLocationManager()
+    var uuid: String?
     private var currentPosition:Position? {
         didSet {
+            printDebug("position changed!")
             getWeatherData()
         }
     }
@@ -35,6 +40,8 @@ class MainViewController: UICollectionViewController {
     // MARK: Lifecycles
     override func viewDidLoad() {
         super.viewDidLoad()
+  
+        
         registerUUID()
         getCurrentPosition()
         
@@ -49,18 +56,26 @@ class MainViewController: UICollectionViewController {
     
     // MARK: - Apis
     func registerUUID() {
+        
         if let id = TAKUUIDStorage.sharedInstance().findOrCreate() {
             saveData(key: Const.shared.UUID, value: id)
+            UserService.shared.registerDeviceId(uuid: id) {
+                printDebug("registerDeviceId successed!")
+            } errorHandler: { error in
+                printDebug("error orccured. \(error)")
+            }
         } else {
             guard let uuid = createAndGetUUID() else {return}
             printDebug(uuid)
-            
+            saveData(key: Const.shared.UUID, value: uuid)
             UserService.shared.registerDeviceId(uuid: uuid) {
                 printDebug("registerDeviceId successed!")
             } errorHandler: { error in
                 printDebug("error orccured. \(error)")
             }
         }
+        
+       
     }
     
     
@@ -72,7 +87,9 @@ class MainViewController: UICollectionViewController {
 //            self.collectionView.reloadData()
 //        }
         
-        let uuid : String = getData(key: Const.shared.UUID)
+        guard let uuid : String = getData(key: Const.shared.UUID) else {return}
+        
+        clothings = []
         
         WeatherService.shared.fetchRefreshRecommendationClothe(id: uuid, gender: .W, pos: position)
         { info in
@@ -107,7 +124,7 @@ class MainViewController: UICollectionViewController {
     }
     
     @objc func handleRefreshButtonTapped() {
-        clothings = []
+        
         getWeatherData()
     }
     
@@ -122,8 +139,10 @@ class MainViewController: UICollectionViewController {
         collectionView.register(MainViewProductCell.self, forCellWithReuseIdentifier: MainViewProductCell.identifier)
         collectionView.contentInset = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20)
         collectionView.snp.makeConstraints { make in
-            make.edges.equalTo(view.safeAreaLayoutGuide)
+            make.top.bottom.equalTo(view.safeAreaLayoutGuide)
+            make.left.right.equalTo(view)
         }
+
         
     }
     func configureUI() {
@@ -167,12 +186,16 @@ class MainViewController: UICollectionViewController {
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
         locationManager.requestWhenInUseAuthorization()
         
-        if CLLocationManager.locationServicesEnabled() {
-            print("DEBUG: 위치 서비스 on")
-            locationManager.startUpdatingLocation()
-       
-        } else {
-            print("DEBUG: 위치 서비스 off")
+
+        
+        DispatchQueue.global().async {
+            if CLLocationManager.locationServicesEnabled() {
+                print("DEBUG: 위치 서비스 on")
+                self.locationManager.startUpdatingLocation()
+           
+            } else {
+                print("DEBUG: 위치 서비스 off")
+            }
         }
     }
 }
@@ -210,14 +233,14 @@ extension MainViewController {
 extension MainViewController : UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
-        return CGSize(width: UIScreen.main.bounds.width, height: 515)
+        return CGSize(width: view.frame.width, height: 515)
     }
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
 //        if indexPath.row % 2 != 0 {
 //            print(indexPath.row)
 //            return CGSize(width: (UIScreen.main.bounds.width - 50) / 2, height: 300)
 //        }
-        return CGSize(width: (UIScreen.main.bounds.width - 50) / 2, height: 260)
+        return CGSize(width: (view.frame.width - 50) / 2, height: 260)
     }
 
 }
@@ -260,13 +283,24 @@ extension MainViewController {
 
 
 extension MainViewController : CLLocationManagerDelegate {
+
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
 
-        if let location = locations.first {
+        if let location = locations.last {
             currentPosition = Position(lat: location.coordinate.latitude, lon: location.coordinate.longitude)
+            
+            locationManager.stopUpdatingLocation()
         }
     }
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
         printDebug(error.localizedDescription)
     }
+
+    
+    
+}
+
+
+extension MainViewController : WKNavigationDelegate {
+    
 }
