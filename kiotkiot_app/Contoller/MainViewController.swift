@@ -228,6 +228,15 @@ extension MainViewController {
         
         return cell
     }
+    
+    override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        guard let urlString = clothings[indexPath.row].detail.link else {return}
+        let controller = WebviewController(urlString: urlString)
+        
+        navigationController?.pushViewController(controller, animated: true)
+        
+        
+    }
 }
 
 extension MainViewController : UICollectionViewDelegateFlowLayout {
