@@ -10,6 +10,12 @@ import SwiftUI
 
 class TodaysWeatherListView : UIView {
     // MARK: - Properties
+    var weathers : [Weather]? {
+        didSet {
+            collectionView.reloadData()
+        }
+    }
+    
     private enum Const {
         static let itemSize = CGSize(width: 60, height: 100)
         static let itemSpacing = 20.0
@@ -23,15 +29,6 @@ class TodaysWeatherListView : UIView {
     }()
     
     private var collectionView : UICollectionView
-    
-    private var weatherList : [Weather] = [
-        Weather(weatherImg: UIImage(named: Weathers.sunshine.rawValue)!, temperature: 26, time: "12:00"),
-        Weather(weatherImg: UIImage(named: Weathers.rainy.rawValue)!, temperature: 24, time: "13:00"),
-        Weather(weatherImg: UIImage(named: Weathers.cloudy.rawValue)!, temperature: 25, time: "14:00"),
-        Weather(weatherImg: UIImage(named: Weathers.cloudy.rawValue)!, temperature: 24, time: "15:00"),
-        Weather(weatherImg: UIImage(named: Weathers.cloudy.rawValue)!, temperature: 23, time: "16:00"),
-        Weather(weatherImg: UIImage(named: Weathers.sunshine.rawValue)!, temperature: 23, time: "17:00"),
-    ]
     
     // MARK: Lifecycles
     override init(frame: CGRect) {
@@ -69,13 +66,17 @@ class TodaysWeatherListView : UIView {
 
 extension TodaysWeatherListView : UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return weatherList.count
+        return weathers?.count ?? 0
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TodaysWeatherListViewCell.identifier, for: indexPath) as! TodaysWeatherListViewCell
         cell.isNow = indexPath.row == 0
-        cell.weather = weatherList[indexPath.row]
+        
+        if let weathers = weathers {
+            cell.weather = weathers[indexPath.row]
+        }
+        
         return cell
     }
     

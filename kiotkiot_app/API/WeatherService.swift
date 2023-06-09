@@ -9,23 +9,74 @@ import Foundation
 import Alamofire
 
 
+
 struct WeatherService {
     static let shared = WeatherService()
     
+    let httpHeaders : HTTPHeaders =  ["Content-Type":"application/json", "Accept":"application/json"]
+    
     func fetchWeatherData(pos: Position, completionHandler: @escaping(WeatherInfo)->Void) {
-        let url = BASE_API_URL + "/weather?latitude=\(pos.lat)&longitude=\(pos.lon)"
+        let url = BASE_API_URL + "/weather"
+        
+        let params : Parameters = [
+            "latitude": pos.lat,
+            "longitude" : pos.lon
+        ]
         
         AF.request(
             url,
             method: .get,
-            parameters: nil,
-            encoding: URLEncoding.default,
-            headers: ["Content-Type":"application/json", "Accept":"application/json"]
+            parameters: params,
+            encoding: URLEncoding.queryString,
+            headers:httpHeaders
         )
         .validate()
         .responseDecodable(of: WeatherInfo.self) { response in
             guard let weatherInfo = response.value else {return}
             completionHandler(weatherInfo)
+        }
+    }
+    
+    enum Gender : String, CaseIterable {
+        case M = "M"
+        case W = "W"
+    }
+    
+    func fetchRefreshRecommendationClothe(id: String, gender: Gender, pos: Position,
+                                          completionHandler: @escaping(RecommendationModel)->Void
+    ) {
+        let url = BASE_API_URL + "/recommendation/clothing/refresh"
+        
+        let body : Parameters = [
+            "device_id" : id,
+            "sex": gender.rawValue,
+            "coordinate": [
+                "latitude": pos.lat,
+                "longitude": pos.lon
+            ]
+        ]
+        
+        
+        
+        AF.request(
+            url,
+            method: .post,
+            parameters: body,
+            encoding: JSONEncoding.default,
+            headers: httpHeaders
+        )
+        .validate()
+        .responseDecodable(of: RecommendationModel.self) { response in
+            switch response.result {
+
+            case .success(let data):
+                
+                completionHandler(data)
+            case .failure(let error):
+                printDebug(error)
+            }
+//            guard let weatherInfo = response.value else {return}
+//            completionHandler(weatherInfo)
         }
     }
 }

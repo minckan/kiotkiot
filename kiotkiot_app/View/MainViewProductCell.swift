@@ -6,10 +6,17 @@
 //
 
 import UIKit
+import SDWebImage
 
 class MainViewProductCell : UICollectionViewCell {
     // MARK: - Properties
     static let identifier = "MainViewProductCell"
+    
+    var clothing : Clothings? {
+        didSet {
+            configure()
+        }
+    }
     
     private let productImageView : UIImageView = {
         let iv = UIImageView()
@@ -44,7 +51,7 @@ class MainViewProductCell : UICollectionViewCell {
         addSubview(tagLabel)
         tagLabel.snp.makeConstraints { make in
             make.top.equalTo(productImageView.snp.bottom).offset(10)
-            make.left.equalTo(contentView)
+            make.left.right.equalTo(contentView)
         }
         
     }
@@ -56,5 +63,11 @@ class MainViewProductCell : UICollectionViewCell {
     // MARK: - Selectors
     
     // MARK: - Helpers
+    func configure() {
+        guard let urlString = clothing?.detail.image else {return}
+        let url = URL(string: urlString)
+        productImageView.sd_setImage(with: url)
+        tagLabel.text = clothing?.key
+    }
 }
 

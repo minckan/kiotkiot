@@ -21,8 +21,14 @@ class MainViewController: UICollectionViewController {
             getWeatherData()
         }
     }
-    private var weatherInfo : WeatherInfo? {
+    private var info : RecommendationModel? {
         didSet {
+            self.collectionView.reloadData()
+        }
+    }
+    private var clothings : [Clothings] = [] {
+        didSet {
+            self.collectionView.reloadData()
         }
     }
     
@@ -60,10 +66,30 @@ class MainViewController: UICollectionViewController {
     
     func getWeatherData() {
         guard let position = currentPosition else {return}
-        WeatherService.shared.fetchWeatherData(pos: position) { weatherInfo  in
-            self.weatherInfo = weatherInfo
-            printDebug(weatherInfo.fcs_weathers)
-            self.collectionView.reloadData()
+//        WeatherService.shared.fetchWeatherData(pos: position) { weatherInfo  in
+//            self.weatherInfo = weatherInfo
+//            printDebug(weatherInfo.fcs_weathers)
+//            self.collectionView.reloadData()
+//        }
+        
+        let uuid : String = getData(key: Const.shared.UUID)
+        
+        WeatherService.shared.fetchRefreshRecommendationClothe(id: uuid, gender: .W, pos: position)
+        { info in
+            
+            DispatchQueue.main.async {
+                self.info = info
+
+                let clothingsInfo = info.recommendationClothing
+                let mirror = Mirror(reflecting: clothingsInfo)
+                for case let (label?, value as ClothingDetails) in mirror.children {
+                    if value.image != nil {
+                        self.clothings.append(Clothings(key: label, detail: value))
+                    }
+                }
+                
+            }
+
         }
     }
     
@@ -81,7 +107,8 @@ class MainViewController: UICollectionViewController {
     }
     
     @objc func handleRefreshButtonTapped() {
-        
+        clothings = []
+        getWeatherData()
     }
     
 
@@ -152,13 +179,13 @@ class MainViewController: UICollectionViewController {
 
 extension MainViewController {
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 6
+        return clothings.count
     }
     
     override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: MainViewHeader.identifier, for: indexPath) as! MainViewHeader
         
-        if let weatherInfo = weatherInfo {
+        if let weatherInfo = info?.weather {
             header.weatherInfo = weatherInfo
         }
         
@@ -171,6 +198,10 @@ extension MainViewController {
         if indexPath.row % 2 == 0 {
             
         }
+        
+        cell.clothing = clothings[indexPath.row]
+        
+      
         
         return cell
     }
