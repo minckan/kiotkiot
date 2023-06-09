@@ -9,15 +9,18 @@ import UIKit
 
 class TodaysWeatherView : UIView {
     // MARK: - Properties
-    var weather : Weather?
+    var weather : Weather? {
+        didSet {
+            configure()
+        }
+    }
     
     private let weatherImage : UIImageView = {
         let iv = UIImageView()
-        iv.image = UIImage(named: "cloudy")
         iv.contentMode = .scaleAspectFit
-//        iv.snp.makeConstraints { make in
-//            make.width.equalTo(80)
-//        }
+        iv.snp.makeConstraints { make in
+            make.height.equalTo(50)
+        }
         return iv
     }()
     
@@ -40,13 +43,12 @@ class TodaysWeatherView : UIView {
     }()
     
     private let temperatureLabel: UILabel = {
-        let label = UILabel(frame: CGRect(x: 0, y: 0, width: 200, height: 100))
-        label.text = "26º"
+        let label = UILabel()
         label.textAlignment = .center
-//        label.textColor = .white
+        label.textColor = .white
         label.font = UIFont(name: FontNeo.bold.rawValue, size: 62)
-        let gradient = getGradientLayer(bounds: label.bounds, colors: [UIColor.white.cgColor, UIColor.white.withAlphaComponent(0.5).cgColor])
-        label.textColor = gradientColor(bounds: label.bounds, gradientLayer: gradient)
+//        let gradient = getGradientLayer(bounds: label.bounds, colors: [UIColor.white.cgColor, UIColor.white.withAlphaComponent(0.5).cgColor])
+//        label.textColor = gradientColor(bounds: label.bounds, gradientLayer: gradient)
         return label
     }()
     
@@ -64,7 +66,7 @@ class TodaysWeatherView : UIView {
         
         addSubview(weatherImage)
         weatherImage.snp.makeConstraints { make in
-            make.top.equalTo(self).offset(30)
+            make.top.equalTo(self).offset(25)
             make.left.right.equalTo(self)
         }
 
@@ -82,7 +84,7 @@ class TodaysWeatherView : UIView {
         
         addSubview(temperatureLabel)
         temperatureLabel.snp.makeConstraints { make in
-            make.bottom.equalTo(self).offset(-30)
+            make.bottom.equalTo(self).offset(-25)
             make.left.right.equalTo(self)
         }
         
@@ -111,10 +113,10 @@ class TodaysWeatherView : UIView {
     }
     
     convenience init(weather: Weather) {
-        self.init(frame: .zero)
+        self.init(frame: CGRect(origin: CGPoint(x: 0, y: 0), size: CGSize(width: UIScreen.main.bounds.width - 40, height: 280)))
         
-        self.weather = weather
-      
+//        self.weather = weather
+
        
         
     }
@@ -124,4 +126,13 @@ class TodaysWeatherView : UIView {
     }
 
     // MARK: - Helpers
+    
+    private func configure() {
+        guard let weather = weather else {return}
+        dateLabel.text = weather.date?.toDate()?.toString()
+        weatherLabel.text = weather.weatherText
+        weatherImage.image = weather.weatherImg
+        temperatureLabel.text = weather.temperature
+    }
+    
 }

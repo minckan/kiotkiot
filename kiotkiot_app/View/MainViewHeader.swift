@@ -14,6 +14,7 @@ class MainViewHeader : UICollectionReusableView {
     var weatherInfo: WeatherInfo? {
         didSet {
             setData()
+//            configureUI()
         }
     }
     
@@ -35,7 +36,7 @@ class MainViewHeader : UICollectionReusableView {
         return label
     }()
     
-    private var weatherView : TodaysWeatherView?
+    private var weatherView = TodaysWeatherView()
     private let todaysWeatherList = TodaysWeatherListView(frame: .zero)
     
     private let todaysWeatherListLabel: UILabel = {
@@ -78,14 +79,14 @@ class MainViewHeader : UICollectionReusableView {
         addSubview(locatioStack)
         locatioStack.snp.makeConstraints { make in
             make.top.equalTo(safeAreaLayoutGuide).offset(10)
-            make.left.equalTo(self)
+            make.left.right.equalTo(self)
         }
         
-        guard let weatherView = weatherView else {return}
+       
         
         addSubview(weatherView)
         weatherView.snp.makeConstraints { make in
-            make.top.equalTo(locationLabel.snp.bottom).offset(20)
+            make.top.equalTo(locatioStack.snp.bottom).offset(20)
             make.left.right.equalTo(self)
             make.height.equalTo(240) // 280
         }
@@ -108,6 +109,8 @@ class MainViewHeader : UICollectionReusableView {
             make.top.equalTo(todaysWeatherList.snp.bottom).offset(20)
             make.left.right.equalTo(self)
         }
+        
+     
     }
     
     private func setData() {
@@ -116,10 +119,26 @@ class MainViewHeader : UICollectionReusableView {
         
         locationLabel.attributedText = viewModel.locationLabelText
         
-        let weather = Weather(weatherImg: UIImage(named: Weathers.sunshine.rawValue)!, temperature: 15, time: "14")
+        let dict : [String: Any] = [
+            "image" : UIImage(named: Weathers.cloudy.rawValue)!,
+            "temperature" : viewModel.temperatureText,
+            "time": "14",
+            "title": "먹구름",
+            "date": weatherInfo.currentDate
+        ]
         
-        weatherView = TodaysWeatherView(weather: weather)
+        let weather = Weather(weatherData: dict)
         
+        weatherView.weather = weather
+        todaysWeatherList.weathers = viewModel.temperatureList.map({ weather in
+            let dict : [String: Any] = [
+                "image" : UIImage(named: Weathers.cloudy.rawValue)!,
+                "temperature" : weather.weather.weatherValue,
+                "time": weather.fcsTime,
+                "title": "먹구름",
+            ]
+            return Weather(weatherData: dict)
+        })
         configureUI()
     }
 }

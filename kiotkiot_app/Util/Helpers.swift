@@ -33,6 +33,7 @@ public func saveData(key : String, value: String) {
     UserDefaults.standard.set(value, forKey: key)
 }
 
-public func getData(key:String) {
-    UserDefaults.standard.string(forKey: key)
+public func getData(key:String) -> String {
+    guard let data = UserDefaults.standard.string(forKey: key) else {return ""}
+    return data
 }

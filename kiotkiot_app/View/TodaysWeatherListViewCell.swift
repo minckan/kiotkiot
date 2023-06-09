@@ -74,11 +74,11 @@ class TodaysWeatherListViewCell : UICollectionViewCell {
         
         if isNow {
             backgroundColor = .weatherBlue
-            layer.shadowColor = UIColor.weatherBlue.cgColor
-            layer.shadowPath = nil
-            layer.shadowOffset = CGSize(width: 1, height: 1)
-            layer.shadowOpacity = 0.5
-            layer.shadowRadius = 5
+//            layer.shadowColor = UIColor.weatherBlue.cgColor
+//            layer.shadowPath = nil
+//            layer.shadowOffset = CGSize(width: 1, height: 1)
+//            layer.shadowOpacity = 0.5
+//            layer.shadowRadius = 5
             timeLabel.textColor = .white
             temperatreLabel.textColor = .white
         } else {

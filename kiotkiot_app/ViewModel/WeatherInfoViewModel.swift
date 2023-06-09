@@ -10,10 +10,14 @@ import UIKit
 struct WeatherInfoViewModel {
     private let weatherInfo: WeatherInfo
     
+    
     init(weatherInfo: WeatherInfo) {
         self.weatherInfo = weatherInfo
     }
     
+    var temperatureList : [FcsWeather] {
+        return weatherInfo.fcsWeathers.filter({$0.weather.weatherCode == "T1H"})
+    }
     
     var locationLabelText : NSAttributedString? {
         guard let addr = self.weatherInfo.address?.address else {return nil}
@@ -22,5 +26,9 @@ struct WeatherInfoViewModel {
         attributedString.append(NSAttributedString(string: components[0], attributes: [.font: UIFont(name: FontNeo.light.rawValue, size: 16) ?? UIFont.systemFont(ofSize: 18), .foregroundColor: UIColor.darkText]))
         
         return attributedString
+    }
+    
+    var temperatureText : String {
+        return "\(temperatureList[0].weather.weatherValue)º"
     }
 }
