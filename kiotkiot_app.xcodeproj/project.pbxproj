@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		8C4392252A36DFFD00789AE9 /* SwiftSoup in Frameworks */ = {isa = PBXBuildFile; productRef = 8C4392242A36DFFD00789AE9 /* SwiftSoup */; };
+		8C4392272A36EAFF00789AE9 /* WeatherViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C4392262A36EAFF00789AE9 /* WeatherViewModel.swift */; };
 		8C4F057B2A315E20003BBB70 /* TAKUUID in Frameworks */ = {isa = PBXBuildFile; productRef = 8C4F057A2A315E20003BBB70 /* TAKUUID */; };
 		8C4F057E2A3163EB003BBB70 /* UserService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C4F057D2A3163EB003BBB70 /* UserService.swift */; };
 		8C4F05802A316478003BBB70 /* Constant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C4F057F2A316478003BBB70 /* Constant.swift */; };
@@ -46,6 +47,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		8C4392262A36EAFF00789AE9 /* WeatherViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherViewModel.swift; sourceTree = "<group>"; };
 		8C4F057C2A315E46003BBB70 /* kiotkiot_app.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = kiotkiot_app.entitlements; sourceTree = "<group>"; };
 		8C4F057D2A3163EB003BBB70 /* UserService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserService.swift; sourceTree = "<group>"; };
 		8C4F057F2A316478003BBB70 /* Constant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constant.swift; sourceTree = "<group>"; };
@@ -172,6 +174,7 @@
 			isa = PBXGroup;
 			children = (
 				8C4F05872A31B5FE003BBB70 /* WeatherInfoViewModel.swift */,
+				8C4392262A36EAFF00789AE9 /* WeatherViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -337,6 +340,7 @@
 				8C568F6A2A2DCB9500A925BF /* Color.swift in Sources */,
 				8CADE1122A306ADC005AF17A /* View.swift in Sources */,
 				8C9614D02A3326D7007BDE73 /* WebviewController.swift in Sources */,
+				8C4392272A36EAFF00789AE9 /* WeatherViewModel.swift in Sources */,
 				8C4F05842A319645003BBB70 /* Position.swift in Sources */,
 				8C568F682A2DBB5200A925BF /* Navigation.swift in Sources */,
 			);

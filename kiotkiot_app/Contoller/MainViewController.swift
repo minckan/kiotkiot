@@ -49,11 +49,7 @@ class MainViewController: UICollectionViewController {
         configureUI()
         configureNavBar()
         setupCollectionView()
-        
-        
 
-        
-    
       
     }
     

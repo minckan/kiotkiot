@@ -33,13 +33,6 @@ struct Weather {
 }
 
 
-enum Weathers : String, CaseIterable{
-    case sunshine
-    case cloudy
-    case rainy
-}
-
-
 struct WeatherItem: Codable {
     let weatherCode: String
     let weatherName: String
@@ -129,4 +122,40 @@ struct RecommendationModel: Codable {
 struct Clothings {
     let key: String
     let detail: ClothingDetails
+}
+
+
+enum Weathers : String, CaseIterable{
+    case sunshine = "sunshine"
+    case cloudy = "cloudy"
+    case overcast = "overcast"
+    case rain = "rain"
+    case rainSnow = "rainSnow"
+    case snow = "snow"
+    case drizzle = "drizzle"
+    case drizzleSnow = "drizzleSnow"
+    case snowfall = "snowfall"
+    
+    var description : String  {
+        switch self {
+        case .sunshine:
+            return "오늘은 맑은날"
+        case .cloudy:
+            return  "구름이 많은 날"
+        case .overcast:
+            return "흐린 날"
+        case .rain:
+            return "비오는 날"
+        case .rainSnow:
+            return "비와 눈이 같이 내려요"
+        case .snow:
+            return "눈오는 날"
+        case .drizzle:
+            return "빗방울"
+        case .drizzleSnow:
+            return "빗방울과 눈이 함께 내려요"
+        case .snowfall:
+            return "눈이 흩날리는 날이예요"
+        }
+    }
 }

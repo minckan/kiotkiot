@@ -118,12 +118,13 @@ class MainViewHeader : UICollectionReusableView {
         let viewModel = WeatherInfoViewModel(weatherInfo: weatherInfo)
         
         locationLabel.attributedText = viewModel.locationLabelText
+
         
         let dict : [String: Any] = [
-            "image" : UIImage(named: Weathers.cloudy.rawValue)!,
+            "image" : UIImage(named:Weathers.rain.rawValue)!,
             "temperature" : viewModel.temperatureText,
             "time": "14",
-            "title": "먹구름",
+            "title": Weathers.rain.description,
             "date": weatherInfo.currentDate
         ]
         
@@ -131,11 +132,12 @@ class MainViewHeader : UICollectionReusableView {
         
         weatherView.weather = weather
         todaysWeatherList.weathers = viewModel.temperatureList.map({ weather in
+            let weatherVM = WeatherViewModel(weather: weather)
             let dict : [String: Any] = [
                 "image" : UIImage(named: Weathers.cloudy.rawValue)!,
                 "temperature" : weather.weather.weatherValue,
-                "time": weather.fcsTime,
-                "title": "먹구름",
+                "time": weatherVM.timeLabelText,
+                "title": Weathers.cloudy.description,
             ]
             return Weather(weatherData: dict)
         })

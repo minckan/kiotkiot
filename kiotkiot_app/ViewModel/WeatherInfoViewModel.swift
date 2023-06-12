@@ -14,7 +14,7 @@ struct WeatherInfoViewModel {
     init(weatherInfo: WeatherInfo) {
         self.weatherInfo = weatherInfo
     }
-    
+
     var temperatureList : [FcsWeather] {
         return weatherInfo.fcsWeathers.filter({$0.weather.weatherCode == "T1H"})
     }
@@ -31,4 +31,6 @@ struct WeatherInfoViewModel {
     var temperatureText : String {
         return "\(temperatureList[0].weather.weatherValue)º"
     }
+    
+    
 }
