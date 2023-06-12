@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8C4392252A36DFFD00789AE9 /* SwiftSoup in Frameworks */ = {isa = PBXBuildFile; productRef = 8C4392242A36DFFD00789AE9 /* SwiftSoup */; };
 		8C4F057B2A315E20003BBB70 /* TAKUUID in Frameworks */ = {isa = PBXBuildFile; productRef = 8C4F057A2A315E20003BBB70 /* TAKUUID */; };
 		8C4F057E2A3163EB003BBB70 /* UserService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C4F057D2A3163EB003BBB70 /* UserService.swift */; };
 		8C4F05802A316478003BBB70 /* Constant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C4F057F2A316478003BBB70 /* Constant.swift */; };
@@ -91,6 +92,7 @@
 				8C568F782A2DD32600A925BF /* SnapKit in Frameworks */,
 				8CD0AB962A32FBE9002AD65F /* SDWebImage in Frameworks */,
 				8CADE1172A30848D005AF17A /* Alamofire in Frameworks */,
+				8C4392252A36DFFD00789AE9 /* SwiftSoup in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -246,6 +248,7 @@
 				8CADE1162A30848D005AF17A /* Alamofire */,
 				8C4F057A2A315E20003BBB70 /* TAKUUID */,
 				8CD0AB952A32FBE9002AD65F /* SDWebImage */,
+				8C4392242A36DFFD00789AE9 /* SwiftSoup */,
 			);
 			productName = kiotkiot_app;
 			productReference = 8C568F492A2DA53800A925BF /* kiotkiot_app.app */;
@@ -280,6 +283,7 @@
 				8CADE1152A30848D005AF17A /* XCRemoteSwiftPackageReference "Alamofire" */,
 				8C4F05792A315E20003BBB70 /* XCRemoteSwiftPackageReference "TAKUUID" */,
 				8CD0AB942A32FBE9002AD65F /* XCRemoteSwiftPackageReference "SDWebImage" */,
+				8C4392232A36DFFD00789AE9 /* XCRemoteSwiftPackageReference "SwiftSoup" */,
 			);
 			productRefGroup = 8C568F4A2A2DA53800A925BF /* Products */;
 			projectDirPath = "";
@@ -568,6 +572,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		8C4392232A36DFFD00789AE9 /* XCRemoteSwiftPackageReference "SwiftSoup" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/scinfu/SwiftSoup.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.6.0;
+			};
+		};
 		8C4F05792A315E20003BBB70 /* XCRemoteSwiftPackageReference "TAKUUID" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/taka0125/TAKUUID.git";
@@ -603,6 +615,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		8C4392242A36DFFD00789AE9 /* SwiftSoup */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 8C4392232A36DFFD00789AE9 /* XCRemoteSwiftPackageReference "SwiftSoup" */;
+			productName = SwiftSoup;
+		};
 		8C4F057A2A315E20003BBB70 /* TAKUUID */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 8C4F05792A315E20003BBB70 /* XCRemoteSwiftPackageReference "TAKUUID" */;

@@ -12,6 +12,7 @@ import Alamofire
 import TAKUUID
 import CoreLocation
 import WebKit
+import SwiftSoup
 
 class MainViewController: UICollectionViewController {
     // MARK: Properties
@@ -48,6 +49,12 @@ class MainViewController: UICollectionViewController {
         configureUI()
         configureNavBar()
         setupCollectionView()
+        
+        
+
+        
+    
+      
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -198,6 +205,32 @@ class MainViewController: UICollectionViewController {
             }
         }
     }
+    
+    func fetchHtmlParsingResultWill(urlString: String, completion: @escaping(_ href: String)->Void) {
+        DispatchQueue.main.async {
+            UIApplication.shared.isNetworkActivityIndicatorVisible = true
+        }
+        
+        
+        guard let url = URL(string: urlString) else {return}
+        
+        do {
+            let html = try String(contentsOf: url, encoding: .utf8)
+            let doc: Document = try SwiftSoup.parse(html)
+            
+            let willUrl : Elements = try doc.select("a.product_btn_link__XRWYu")
+            
+            for el in willUrl.array() {
+                let href = try el.attr("href")
+                if href != "#" {
+                    completion(href)
+                }
+            }
+        } catch let error {
+            printDebug("Error: \(error)")
+        }
+        
+    }
 }
 
 extension MainViewController {
@@ -237,11 +270,19 @@ extension MainViewController {
         
         printDebug(urlString)
         
-        if let url = URL(string: urlString) {
-            if UIApplication.shared.canOpenURL(url) {
-                UIApplication.shared.open(url, options: [:], completionHandler: nil)
+        DispatchQueue.global().async {
+            self.fetchHtmlParsingResultWill(urlString: urlString) { href in
+                if let url = URL(string: href) {
+                    if UIApplication.shared.canOpenURL(url) {
+                        DispatchQueue.main.async {
+                            UIApplication.shared.open(url, options: [:], completionHandler: nil)
+                        }
+                    }
+                }
             }
         }
+        
+        
     }
 }
 
@@ -303,8 +344,6 @@ extension MainViewController : CLLocationManagerDelegate {
 
         if let location = locations.last {
             currentPosition = Position(lat: location.coordinate.latitude, lon: location.coordinate.longitude)
-            
-            print(currentPosition)
             
             locationManager.stopUpdatingLocation()
         }
