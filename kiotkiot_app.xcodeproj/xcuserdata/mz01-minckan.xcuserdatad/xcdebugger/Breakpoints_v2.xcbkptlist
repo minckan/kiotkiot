@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Bucket
+   uuid = "9CB809D9-7B8F-4789-B967-CF735314000D"
+   type = "1"
+   version = "2.0">
+   <Breakpoints>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "60635A3E-A2C4-4D3E-8A98-0B09A0375A3F"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "kiotkiot_app/View/TodaysWeatherView.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "45"
+            endingLineNumber = "45"
+            landmarkName = "temperatureLabel"
+            landmarkType = "24">
+            <Locations>
+               <Location
+                  uuid = "60635A3E-A2C4-4D3E-8A98-0B09A0375A3F - 99631032db0f6aae"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 () -&gt; __C.UILabel in variable initialization expression of kiotkiot_app.TodaysWeatherView.temperatureLabel : __C.UILabel"
+                  moduleName = "kiotkiot_app"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/mz01-minckan/Desktop/STUDY/kiotkiot_app/kiotkiot_app/View/TodaysWeatherView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "39"
+                  endingLineNumber = "39"
+                  offsetFromSymbolStart = "29">
+               </Location>
+               <Location
+                  uuid = "60635A3E-A2C4-4D3E-8A98-0B09A0375A3F - e5cfca83d9ab783"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "kiotkiot_app.TodaysWeatherView.init(frame: __C.CGRect) -&gt; kiotkiot_app.TodaysWeatherView"
+                  moduleName = "kiotkiot_app"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/mz01-minckan/Desktop/STUDY/kiotkiot_app/kiotkiot_app/View/TodaysWeatherView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "38"
+                  endingLineNumber = "38"
+                  offsetFromSymbolStart = "304">
+               </Location>
+               <Location
+                  uuid = "60635A3E-A2C4-4D3E-8A98-0B09A0375A3F - 9671db825259de8d"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "kiotkiot_app.TodaysWeatherView.init(coder: __C.NSCoder) -&gt; Swift.Optional&lt;kiotkiot_app.TodaysWeatherView&gt;"
+                  moduleName = "kiotkiot_app"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/mz01-minckan/Desktop/STUDY/kiotkiot_app/kiotkiot_app/View/TodaysWeatherView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "38"
+                  endingLineNumber = "38"
+                  offsetFromSymbolStart = "207">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+   </Breakpoints>
+</Bucket>
