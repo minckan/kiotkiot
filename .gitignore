@@ -91,4 +91,5 @@ iOSInjectionProject/
 
 
 #Custom
-Util/Constant
+kiotkiot_app/Util/Constant.swift
+.DS_Store
