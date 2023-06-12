@@ -231,11 +231,17 @@ extension MainViewController {
     
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard let urlString = clothings[indexPath.row].detail.link else {return}
-        let controller = WebviewController(urlString: urlString)
         
-        navigationController?.pushViewController(controller, animated: true)
+//        let controller = WebviewController(urlString: urlString)
+//        navigationController?.pushViewController(controller, animated: true)
         
+        printDebug(urlString)
         
+        if let url = URL(string: urlString) {
+            if UIApplication.shared.canOpenURL(url) {
+                UIApplication.shared.open(url, options: [:], completionHandler: nil)
+            }
+        }
     }
 }
 
@@ -297,6 +303,8 @@ extension MainViewController : CLLocationManagerDelegate {
 
         if let location = locations.last {
             currentPosition = Position(lat: location.coordinate.latitude, lon: location.coordinate.longitude)
+            
+            print(currentPosition)
             
             locationManager.stopUpdatingLocation()
         }
