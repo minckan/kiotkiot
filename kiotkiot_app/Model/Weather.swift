@@ -158,4 +158,37 @@ enum Weathers : String, CaseIterable{
             return "눈이 흩날리는 날이예요"
         }
     }
+    
+    var background : BackgroundGradientColorSet {
+        switch self {
+        case .sunshine:
+            return BackgroundGradientColorSet(color1: .sunnyGradient1, color2: .sunnyGradient2)
+        case .cloudy:
+            return BackgroundGradientColorSet(color1: .rainGradient1, color2: .rainGradient2)
+        case .overcast:
+            return BackgroundGradientColorSet(color1: .rainGradient1, color2: .rainGradient2)
+        case .rain:
+            return BackgroundGradientColorSet(color1: .rainGradient1, color2: .rainGradient2)
+        case .rainSnow:
+            return BackgroundGradientColorSet(color1: .rainGradient1, color2: .rainGradient2)
+        case .snow:
+            return BackgroundGradientColorSet(color1: .rainGradient1, color2: .rainGradient2)
+        case .drizzle:
+            return BackgroundGradientColorSet(color1: .rainGradient1, color2: .rainGradient2)
+        case .drizzleSnow:
+            return BackgroundGradientColorSet(color1: .rainGradient1, color2: .rainGradient2)
+        case .snowfall:
+            return BackgroundGradientColorSet(color1: .rainGradient1, color2: .rainGradient2)
+        }
+    }
+}
+
+struct BackgroundGradientColorSet {
+    let color1 : UIColor
+    let color2 : UIColor
+    
+    init(color1: UIColor, color2: UIColor) {
+        self.color1 = color1
+        self.color2 = color2
+    }
 }

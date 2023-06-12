@@ -58,7 +58,7 @@ class TodaysWeatherView : UIView {
         
 //        backgroundColor = .weatherBlue
         bounds = CGRect(origin: CGPoint(x: 0, y: 0), size: CGSize(width: UIScreen.main.bounds.width - 40, height: 280))
-        setGradient(color1: .weatherBlue.withAlphaComponent(0.7), color2: .weatherBlue)
+        setGradient(Weathers.sunshine.background)
         
         
         layer.cornerRadius = 20

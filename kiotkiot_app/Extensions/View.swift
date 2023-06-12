@@ -7,15 +7,62 @@
 
 import UIKit
 
+
 extension UIView {
-    func setGradient(color1: UIColor, color2: UIColor) {
-        let gradient: CAGradientLayer = CAGradientLayer()
-        gradient.colors = [color1.cgColor, color2.cgColor]
-        gradient.locations = [0.0, 0.1]
-        gradient.startPoint = CGPoint(x: 0.0, y: 3.0)
-        gradient.endPoint = CGPoint(x: 10.0, y: 4.0)
-        gradient.frame = bounds
-        layer.addSublayer(gradient)
+    func setGradient(_ bg: BackgroundGradientColorSet) {
+//        let gradient: CAGradientLayer = CAGradientLayer()
+//        gradient.colors = [color1.cgColor, color2.cgColor]
+
+//        gradient.frame = bounds
+//        layer.addSublayer(gradient)
+        
+        let gradientLayer = CAGradientLayer()
+        gradientLayer.frame  = bounds
+        let colors: [CGColor] = [
+            bg.color1.cgColor,
+            bg.color1.cgColor,
+            bg.color2.cgColor
+        ]
+        let changeColors1: [CGColor] = [
+            bg.color2.cgColor,
+            bg.color2.cgColor,
+            bg.color1.cgColor,
+        ]
+        
+        let changeColors2: [CGColor] = [
+            bg.color1.cgColor,
+            bg.color2.cgColor,
+            bg.color2.cgColor,
+           
+        ]
+
+        gradientLayer.colors = colors
+        gradientLayer.locations = [0.0, 0.1]
+        gradientLayer.startPoint = CGPoint(x: 0.0, y: 2.0)
+        gradientLayer.endPoint = CGPoint(x: 10.0, y: 3.0)
+        
+        
+        let colorAnimation1 = CABasicAnimation(keyPath: "colors")
+        colorAnimation1.toValue = changeColors1
+        colorAnimation1.duration = 3
+        colorAnimation1.autoreverses = true
+        colorAnimation1.isRemovedOnCompletion = false
+        colorAnimation1.fillMode = CAMediaTimingFillMode.forwards
+        colorAnimation1.repeatCount = .infinity
+        
+        let colorAnimation2 = CABasicAnimation(keyPath: "colors")
+        colorAnimation2.toValue = changeColors2
+        colorAnimation2.duration = 3
+        colorAnimation2.autoreverses = true
+        colorAnimation2.isRemovedOnCompletion = false
+        colorAnimation2.fillMode = CAMediaTimingFillMode.forwards
+        colorAnimation2.repeatCount = .infinity
+        
+        gradientLayer.add(colorAnimation1, forKey: "colorChangeAnimation")
+        gradientLayer.add(colorAnimation1, forKey: "colorChangeAnimation")
+        
+        
+        layer.addSublayer(gradientLayer)
     }
 }
 

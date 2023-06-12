@@ -35,4 +35,20 @@ extension UIColor {
     static var darkText: UIColor {
         return UIColor.rgb(50, 50, 50, 1)
     }
+    
+    static var sunnyGradient1: UIColor {
+        return UIColor.rgb(251, 216, 134, 1)
+    }
+    
+    static var sunnyGradient2: UIColor {
+        return UIColor.rgb(247, 121, 125, 1)
+    }
+    
+    static var rainGradient1: UIColor {
+        return UIColor.rgb(127, 127, 213, 1)
+    }
+    
+    static var rainGradient2: UIColor {
+        return UIColor.rgb(145, 234, 228, 1)
+    }
 }
