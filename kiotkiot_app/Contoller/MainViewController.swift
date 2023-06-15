@@ -94,7 +94,7 @@ class MainViewController: UICollectionViewController {
         
         clothings = []
         
-        WeatherService.shared.fetchRefreshRecommendationClothe(id: uuid, gender: .W, pos: position)
+        WeatherService.shared.fetchRecommendationCloth(id: uuid, gender: .W, pos: position)
         { info in
             
             DispatchQueue.main.async {

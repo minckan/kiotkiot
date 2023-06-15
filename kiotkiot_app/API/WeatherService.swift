@@ -22,6 +22,7 @@ struct WeatherService {
             "latitude": pos.lat,
             "longitude" : pos.lon
         ]
+    
         
         AF.request(
             url,
@@ -42,10 +43,10 @@ struct WeatherService {
         case W = "W"
     }
     
-    func fetchRefreshRecommendationClothe(id: String, gender: Gender, pos: Position,
+    func fetchRecommendationCloth(id: String, gender: Gender, pos: Position,
                                           completionHandler: @escaping(RecommendationModel)->Void
     ) {
-        let url = BASE_API_URL + "/recommendation/clothing/refresh"
+        let url = BASE_API_URL + "/recommendation/clothing"
         
         let body : Parameters = [
             "device_id" : id,
@@ -57,7 +58,7 @@ struct WeatherService {
         ]
         
         
-        
+
         AF.request(
             url,
             method: .post,
@@ -70,13 +71,10 @@ struct WeatherService {
             switch response.result {
 
             case .success(let data):
-                
                 completionHandler(data)
             case .failure(let error):
                 printDebug(error)
             }
-//            guard let weatherInfo = response.value else {return}
-//            completionHandler(weatherInfo)
         }
     }
 }
