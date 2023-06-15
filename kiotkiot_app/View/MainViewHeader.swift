@@ -130,6 +130,8 @@ class MainViewHeader : UICollectionReusableView {
         
         let weather = Weather(weatherData: dict)
         
+        
+        
         weatherView.weather = weather
         todaysWeatherList.weathers = viewModel.temperatureList.map({ weather in
             let weatherVM = WeatherViewModel(weather: weather)

@@ -29,4 +29,7 @@ struct WeatherViewModel {
         }
     }
 
+    var status : Weathers? {
+        return weather.weather.weatherStatus
+    }
 }

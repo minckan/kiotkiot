@@ -45,6 +45,60 @@ struct WeatherItem: Codable {
         case weatherValue = "weather_value"
         case weatherUnit = "weather_unit"
     }
+    
+    enum WeatherCode {
+        case SKY(code: String)
+        case PTY(code: String)
+    }
+    
+    var weatherStatus : Weathers? {
+        if weatherCode == "SKY" {
+            
+            return checkStatusCode(code: WeatherCode.SKY(code: weatherValue))
+        }
+        if weatherCode == "PTY" {
+            return checkStatusCode(code: WeatherCode.PTY(code: weatherValue))
+        }
+        
+        return nil
+    }
+    
+
+    func checkStatusCode(code: WeatherCode) -> Weathers? {
+        switch code {
+        case .SKY(code: let code):
+            switch code {
+            case "1" :
+                return Weathers.sunshine
+            case "3":
+                return Weathers.cloudy
+            case "4":
+                return Weathers.overcast
+            default:
+                printDebug("nothing")
+                return nil
+            }
+        case .PTY(code: let code):
+            switch code {
+            case "0" :
+                return nil
+            case "1":
+                return Weathers.rain
+            case "2":
+                return Weathers.rainSnow
+            case "3":
+                return Weathers.snow
+            case "5":
+                return Weathers.drizzle
+            case "6":
+                return Weathers.drizzleSnow
+            case "7":
+                return Weathers.snowfall
+            default:
+                return nil
+            }
+        }
+    }
 }
 
 struct FcsWeather: Codable {
@@ -58,6 +112,7 @@ struct FcsWeather: Codable {
         case weather = "weather"
     }
 }
+
 
 struct Address: Codable {
     let address: String
@@ -158,6 +213,10 @@ enum Weathers : String, CaseIterable{
             return "눈이 흩날리는 날이예요"
         }
     }
+    
+
+    
+
     
     var background : BackgroundGradientColorSet {
         switch self {
