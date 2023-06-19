@@ -32,5 +32,14 @@ struct WeatherInfoViewModel {
         return "\(temperatureList[0].weather.weatherValue)º"
     }
     
+    var weatherStatusText : String {
+        
+        return ""
+    }
+    
+    var weatherStatusList : [FcsWeather] {
+        return weatherInfo.fcsWeathers.filter({$0.weather.weatherStatus != nil})
+    }
+    
     
 }

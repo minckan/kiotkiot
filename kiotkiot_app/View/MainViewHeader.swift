@@ -118,29 +118,36 @@ class MainViewHeader : UICollectionReusableView {
         let viewModel = WeatherInfoViewModel(weatherInfo: weatherInfo)
         
         locationLabel.attributedText = viewModel.locationLabelText
-
+        
+        guard let currStatus = viewModel.weatherStatusList[0].weather.weatherStatus else {return}
         
         let dict : [String: Any] = [
-            "image" : UIImage(named:Weathers.rain.rawValue)!,
+            "image" : UIImage(named:currStatus.rawValue)!,
             "temperature" : viewModel.temperatureText,
             "time": "14",
-            "title": Weathers.rain.description,
+            "title": currStatus.description,
             "date": weatherInfo.currentDate
         ]
         
         let weather = Weather(weatherData: dict)
         
-        
-        
+
         weatherView.weather = weather
+        weatherView.weatherStatus = currStatus
         todaysWeatherList.weathers = viewModel.temperatureList.map({ weather in
+            
             let weatherVM = WeatherViewModel(weather: weather)
-            let dict : [String: Any] = [
+            var dict : [String: Any] = [
                 "image" : UIImage(named: Weathers.cloudy.rawValue)!,
                 "temperature" : weather.weather.weatherValue,
                 "time": weatherVM.timeLabelText,
                 "title": Weathers.cloudy.description,
             ]
+            
+            if let weatherStatus = viewModel.weatherStatusList.filter({$0.fcsTime == weather.fcsTime})[0].weather.weatherStatus {
+                dict["image"] = UIImage(named: weatherStatus.rawValue)!
+                dict["status"] = weatherStatus
+            }
             return Weather(weatherData: dict)
         })
         configureUI()

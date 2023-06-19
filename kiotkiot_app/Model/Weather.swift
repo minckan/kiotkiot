@@ -13,6 +13,7 @@ struct Weather {
     let temperature : String
     var time: String?
     var date: String?
+    var status : Weathers?
     
     init(weatherData dictionary : Dictionary<String, Any>) {
         self.weatherImg = dictionary["image"] as! UIImage
@@ -28,6 +29,10 @@ struct Weather {
         
         if let time = dictionary["time"] {
             self.time = time as? String
+        }
+        
+        if let status = dictionary["status"] {
+            self.status = status as! Weathers
         }
     }
 }
@@ -75,7 +80,6 @@ struct WeatherItem: Codable {
             case "4":
                 return Weathers.overcast
             default:
-                printDebug("nothing")
                 return nil
             }
         case .PTY(code: let code):
@@ -194,23 +198,23 @@ enum Weathers : String, CaseIterable{
     var description : String  {
         switch self {
         case .sunshine:
-            return "오늘은 맑은날"
+            return "맑음"
         case .cloudy:
-            return  "구름이 많은 날"
+            return  "구름많음"
         case .overcast:
-            return "흐린 날"
+            return "흐림"
         case .rain:
-            return "비오는 날"
+            return "비내림"
         case .rainSnow:
-            return "비와 눈이 같이 내려요"
+            return "비와 눈"
         case .snow:
-            return "눈오는 날"
+            return "눈내림"
         case .drizzle:
             return "빗방울"
         case .drizzleSnow:
-            return "빗방울과 눈이 함께 내려요"
+            return "빗방울과 눈"
         case .snowfall:
-            return "눈이 흩날리는 날이예요"
+            return "눈 흩날림"
         }
     }
     

@@ -77,7 +77,7 @@ class TodaysWeatherListViewCell : UICollectionViewCell {
         guard let isNow = isNow else {return}
         
         if isNow {
-            backgroundColor = .weatherBlue
+            backgroundColor = weather?.status?.background.color1
 //            layer.shadowColor = UIColor.weatherBlue.cgColor
 //            layer.shadowPath = nil
 //            layer.shadowOffset = CGSize(width: 1, height: 1)
