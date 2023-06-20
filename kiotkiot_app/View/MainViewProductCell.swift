@@ -77,7 +77,7 @@ class MainViewProductCell : UICollectionViewCell {
         guard let urlString = clothing?.detail.image else {return}
         let url = URL(string: urlString)
         productImageView.sd_setImage(with: url)
-        tagLabel.text = clothing?.key
+        tagLabel.text = clothing?.detail.title
     }
 }
 

@@ -76,22 +76,24 @@ class TodaysWeatherListViewCell : UICollectionViewCell {
         
         guard let isNow = isNow else {return}
         
-        if isNow {
-            backgroundColor = weather?.status?.background.color1
-//            layer.shadowColor = UIColor.weatherBlue.cgColor
-//            layer.shadowPath = nil
-//            layer.shadowOffset = CGSize(width: 1, height: 1)
-//            layer.shadowOpacity = 0.5
-//            layer.shadowRadius = 5
-            timeLabel.textColor = .white
-            temperatreLabel.textColor = .white
-        } else {
-            backgroundColor = .white
-            layer.borderWidth = 0.3
-            layer.borderColor = UIColor.lightGray.cgColor
-            timeLabel.textColor = UIColor.darkText
-            temperatreLabel.textColor = UIColor.darkText
-        }
+//        if isNow {
+//            backgroundColor = .white
+////            layer.shadowColor = UIColor.weatherBlue.cgColor
+////            layer.shadowPath = nil
+////            layer.shadowOffset = CGSize(width: 1, height: 1)
+////            layer.shadowOpacity = 0.5
+////            layer.shadowRadius = 5
+//            timeLabel.textColor = UIColor.darkText
+//            temperatreLabel.textColor = UIColor.darkText
+//        } else {
+//           
+//        }
+        
+        backgroundColor = .white
+        layer.borderWidth = 0.3
+        layer.borderColor = UIColor.lightGray.cgColor
+        timeLabel.textColor = UIColor.darkText
+        temperatreLabel.textColor = UIColor.darkText
         
         
     }

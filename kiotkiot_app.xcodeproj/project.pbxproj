@@ -33,6 +33,7 @@
 		8C568F7A2A2DD64D00A925BF /* Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C568F792A2DD64D00A925BF /* Helpers.swift */; };
 		8C568F7C2A2DD8D900A925BF /* TodaysWeatherView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C568F7B2A2DD8D900A925BF /* TodaysWeatherView.swift */; };
 		8C568F7E2A2DDC1900A925BF /* Fonts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C568F7D2A2DDC1900A925BF /* Fonts.swift */; };
+		8C622EF52A41408B005F6130 /* Share.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C622EF42A41408B005F6130 /* Share.swift */; };
 		8C9614CE2A33263B007BDE73 /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8C9614CD2A33263B007BDE73 /* WebKit.framework */; };
 		8C9614D02A3326D7007BDE73 /* WebviewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C9614CF2A3326D7007BDE73 /* WebviewController.swift */; };
 		8CADE1082A3012D8005AF17A /* TodaysWeatherListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CADE1072A3012D8005AF17A /* TodaysWeatherListView.swift */; };
@@ -73,6 +74,7 @@
 		8C568F792A2DD64D00A925BF /* Helpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helpers.swift; sourceTree = "<group>"; };
 		8C568F7B2A2DD8D900A925BF /* TodaysWeatherView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodaysWeatherView.swift; sourceTree = "<group>"; };
 		8C568F7D2A2DDC1900A925BF /* Fonts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Fonts.swift; sourceTree = "<group>"; };
+		8C622EF42A41408B005F6130 /* Share.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Share.swift; sourceTree = "<group>"; };
 		8C9614CD2A33263B007BDE73 /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
 		8C9614CF2A3326D7007BDE73 /* WebviewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebviewController.swift; sourceTree = "<group>"; };
 		8CADE1072A3012D8005AF17A /* TodaysWeatherListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodaysWeatherListView.swift; sourceTree = "<group>"; };
@@ -186,6 +188,7 @@
 				8C568F7D2A2DDC1900A925BF /* Fonts.swift */,
 				8CADE1132A30730E005AF17A /* Preview.swift */,
 				8C4F057F2A316478003BBB70 /* Constant.swift */,
+				8C622EF42A41408B005F6130 /* Share.swift */,
 			);
 			path = Util;
 			sourceTree = "<group>";
@@ -321,6 +324,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8C568F7E2A2DDC1900A925BF /* Fonts.swift in Sources */,
+				8C622EF52A41408B005F6130 /* Share.swift in Sources */,
 				8C4F05802A316478003BBB70 /* Constant.swift in Sources */,
 				8C568F7C2A2DD8D900A925BF /* TodaysWeatherView.swift in Sources */,
 				8C568F512A2DA53800A925BF /* MainViewController.swift in Sources */,

@@ -45,10 +45,52 @@ extension UIColor {
     }
     
     static var rainGradient1: UIColor {
-        return UIColor.rgb(127, 127, 213, 1)
+        return UIColor.rgb(97, 144, 232, 1)
+    }
+
+    static var rainGradient2: UIColor {
+        return UIColor.rgb(167, 191, 232, 1)
     }
     
-    static var rainGradient2: UIColor {
-        return UIColor.rgb(145, 234, 228, 1)
+    static var cloudyGradient1: UIColor {
+        return UIColor.rgb(117, 127, 154, 1)
     }
+
+    static var cloudyGradient2: UIColor {
+        return UIColor.rgb(215, 221, 232, 1)
+    }
+    
+//    static var cloudyGradient1: UIColor {
+//        return UIColor.rgb(167, 157, 191, 1)
+//    }
+//
+//    static var cloudyGradient2: UIColor {
+//        return UIColor.rgb(233, 228, 240, 1)
+//    }
+    
+    static var overcastGradient1: UIColor {
+        return UIColor.rgb(189, 195, 199, 1)
+    }
+
+    static var overcastGradient2: UIColor {
+        return UIColor.rgb(44, 62, 80, 1)
+    }
+    
+    
+    static var snowGradient1: UIColor {
+        return UIColor.rgb(131, 164, 212, 1)
+    }
+
+    static var snowGradient2: UIColor {
+        return UIColor.rgb(182, 251, 255, 1)
+    }
+    
+    static var rainSnowGradient1: UIColor {
+        return UIColor.rgb(167, 157, 191, 1)
+    }
+
+    static var rainSnowGradient2: UIColor {
+        return UIColor.rgb(233, 228, 240, 1)
+    }
+
 }

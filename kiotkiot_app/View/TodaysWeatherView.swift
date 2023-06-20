@@ -87,7 +87,7 @@ class TodaysWeatherView : UIView {
             bounds = CGRect(origin: CGPoint(x: 0, y: 0), size: CGSize(width: UIScreen.main.bounds.width - 40, height: 280))
             setGradient(status.background)
             
-            layer.cornerRadius = 20
+            layer.cornerRadius = 8
             layer.masksToBounds = true
             
             addSubview(weatherImage)

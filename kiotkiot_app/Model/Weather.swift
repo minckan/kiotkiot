@@ -227,15 +227,15 @@ enum Weathers : String, CaseIterable{
         case .sunshine:
             return BackgroundGradientColorSet(color1: .sunnyGradient1, color2: .sunnyGradient2)
         case .cloudy:
-            return BackgroundGradientColorSet(color1: .rainGradient1, color2: .rainGradient2)
+            return BackgroundGradientColorSet(color1: .cloudyGradient1, color2: .cloudyGradient2)
         case .overcast:
-            return BackgroundGradientColorSet(color1: .rainGradient1, color2: .rainGradient2)
+            return BackgroundGradientColorSet(color1: .overcastGradient1, color2: .overcastGradient2)
         case .rain:
             return BackgroundGradientColorSet(color1: .rainGradient1, color2: .rainGradient2)
         case .rainSnow:
-            return BackgroundGradientColorSet(color1: .rainGradient1, color2: .rainGradient2)
+            return BackgroundGradientColorSet(color1: .rainSnowGradient1, color2: .rainSnowGradient2)
         case .snow:
-            return BackgroundGradientColorSet(color1: .rainGradient1, color2: .rainGradient2)
+            return BackgroundGradientColorSet(color1: .snowGradient1, color2: .snowGradient2)
         case .drizzle:
             return BackgroundGradientColorSet(color1: .rainGradient1, color2: .rainGradient2)
         case .drizzleSnow:
