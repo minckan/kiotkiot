@@ -123,7 +123,7 @@ class MainViewController: UICollectionViewController {
     
     // MARK: Selectors
     @objc func handleSettingButtonTapped() {
-        
+        navigationController?.pushViewController(SettingController(), animated: true)
     }
     
     @objc func handleNotificationButtonTapped() {
@@ -188,7 +188,7 @@ class MainViewController: UICollectionViewController {
         let notification = makeBarButton("notification", selector: #selector(handleNotificationButtonTapped))
         let share = makeBarButton("share", selector: #selector(handleShareButtonTapped))
         let refresh = makeBarButton("refresh", selector: #selector(handleRefreshButtonTapped))
-        navigationItem.leftBarButtonItems = [setting, notification]
+        navigationItem.leftBarButtonItems = [setting]
         navigationItem.rightBarButtonItems = [share, refresh]
     }
     
