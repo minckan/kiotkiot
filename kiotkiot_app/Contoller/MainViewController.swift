@@ -13,11 +13,18 @@ import TAKUUID
 import CoreLocation
 import WebKit
 import SwiftSoup
+import LinkPresentation
 
 class MainViewController: UICollectionViewController {
     // MARK: Properties
     
-  
+    private var metaData: LPLinkMetadata = LPLinkMetadata() {
+        didSet {
+            DispatchQueue.main.async {
+                self.shareURLWithMetadata(metadata: self.metaData)
+            }
+        }
+    }
     
     var locationManager = CLLocationManager()
     var uuid: String?
@@ -109,7 +116,8 @@ class MainViewController: UICollectionViewController {
                 }
                 
             }
-
+            
+            self.collectionView.refreshControl?.endRefreshing()
         }
     }
     
@@ -123,14 +131,19 @@ class MainViewController: UICollectionViewController {
     }
     
     @objc func handleShareButtonTapped() {
-        
+        self.metaData = getMetadataForSharingManually(title: "오늘의 기온별 옷차림을 공유해보세요!", url: nil, fileName: nil, fileType: nil)
+        shareURLWithMetadata(metadata: metaData)
+
     }
     
     @objc func handleRefreshButtonTapped() {
-        
         getWeatherData()
     }
     
+    
+    @objc func handleRefresh() {
+        getWeatherData()
+    }
 
     
     // MARK: Helpers
@@ -151,6 +164,11 @@ class MainViewController: UICollectionViewController {
     func configureUI() {
         view.backgroundColor = .white
         collectionView.backgroundColor = .white
+        
+        
+        let refreshControl = UIRefreshControl()
+        collectionView.refreshControl = refreshControl
+        refreshControl.addTarget(self, action: #selector(handleRefresh), for: .valueChanged)
         
     }
     
@@ -227,6 +245,20 @@ class MainViewController: UICollectionViewController {
         }
         
     }
+    
+    func shareURLWithMetadata(metadata: LPLinkMetadata) {
+        let metadataItemSource = LinkPresentationItemSource(metadata: metadata)
+        
+        let activityVC = UIActivityViewController(activityItems: [metadataItemSource], applicationActivities: nil)
+        activityVC.popoverPresentationController?.sourceView = self.view
+
+        
+        
+        // 공유하기 기능 중 제외할 기능이 있을때 사용
+//        activityVC.excludedActivityTypes = [UIActivity.ActivityType.airDrop, UIActivity.ActivityType.addToReadingList]
+        self.present(activityVC, animated: true)
+    }
+
 }
 
 extension MainViewController {
@@ -240,6 +272,8 @@ extension MainViewController {
         if let weatherInfo = info?.weather {
             header.weatherInfo = weatherInfo
         }
+        
+        header.delegate = self
         
         return header
     }
@@ -303,27 +337,11 @@ extension MainViewController {
         let offsetY = scrollView.contentOffset.y
 
         if offsetY >= 50 {
-//            let appearance = UINavigationBarAppearance()
-//            appearance.configureWithOpaqueBackground() // 배경을 불투명하게 설정
-//            appearance.backgroundColor = .white // 배경 색상을 화이트로 설정
-//            self.navigationController?.navigationBar.tintColor = .black
-//            self.navigationItem.standardAppearance = appearance
-//            self.navigationItem.scrollEdgeAppearance = appearance
-//            self.navigationItem.compactAppearance = appearance
             UIView.animate(withDuration: 0.3) {
                 self.setNeedsStatusBarAppearanceUpdate()
             }
             self.navigationItem.title = "kiotkiot"
         } else {
-//            let appearance = UINavigationBarAppearance()
-//            appearance.configureWithTransparentBackground()
-//            self.navigationController?.navigationBar.standardAppearance = appearance
-//            self.navigationController?.navigationBar.scrollEdgeAppearance = appearance
-//            self.edgesForExtendedLayout = UIRectEdge.top
-//            self.navigationController?.navigationBar.tintColor = .white
-//            self.navigationItem.scrollEdgeAppearance = appearance
-//            self.navigationItem.standardAppearance = appearance
-//            self.navigationItem.compactAppearance = appearance
             UIView.animate(withDuration: 0.3) {
                 self.setNeedsStatusBarAppearanceUpdate()
             }
@@ -355,4 +373,11 @@ extension MainViewController : CLLocationManagerDelegate {
 
 extension MainViewController : WKNavigationDelegate {
     
+}
+
+extension MainViewController : MainViewHeaderDelegate {
+    func refetchLocation() {
+        printDebug("refetchLocation called")
+        locationManager.startUpdatingLocation()
+    }
 }

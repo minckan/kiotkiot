@@ -7,14 +7,18 @@
 
 import UIKit
 
+protocol MainViewHeaderDelegate : AnyObject {
+    func refetchLocation()
+}
+
 class MainViewHeader : UICollectionReusableView {
     // MARK: - Properties
     static let identifier = "MainViewHeader"
+    weak var delegate : MainViewHeaderDelegate?
     
     var weatherInfo: WeatherInfo? {
         didSet {
             setData()
-//            configureUI()
         }
     }
     
@@ -27,11 +31,11 @@ class MainViewHeader : UICollectionReusableView {
         button.addTarget(self, action: #selector(handleGPSButtonTapped), for: .touchUpInside)
         return button
     }()
+    
+    
     private let locationLabel : UILabel = {
         let label = UILabel()
         label.textColor = .darkText
-        
-        
         
         return label
     }()
@@ -67,7 +71,7 @@ class MainViewHeader : UICollectionReusableView {
     
     // MARK: - Selectors
     @objc func handleGPSButtonTapped() {
-        
+        delegate?.refetchLocation()
     }
     
     // MARK: - Helpers
