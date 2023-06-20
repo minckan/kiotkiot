@@ -45,11 +45,11 @@ extension UIColor {
     }
     
     static var rainGradient1: UIColor {
-        return UIColor.rgb(97, 144, 232, 1)
+        return UIColor.rgb(94, 130, 230, 1)
     }
 
     static var rainGradient2: UIColor {
-        return UIColor.rgb(167, 191, 232, 1)
+        return UIColor.rgb(206, 220, 245, 1)
     }
     
     static var cloudyGradient1: UIColor {

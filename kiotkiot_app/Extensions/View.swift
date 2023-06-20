@@ -36,14 +36,14 @@ extension UIView {
         ]
 
         gradientLayer.colors = colors
-        gradientLayer.locations = [0.0, 0.1]
-        gradientLayer.startPoint = CGPoint(x: 0.0, y: 1.0)
-        gradientLayer.endPoint = CGPoint(x: 5.0, y: 3.0)
+        gradientLayer.locations = [0.0, 0.2]
+        gradientLayer.startPoint = CGPoint(x: 0.0, y: 0.0)
+        gradientLayer.endPoint = CGPoint(x: 6.0, y: 2.0)
         
         
         let colorAnimation1 = CABasicAnimation(keyPath: "colors")
         colorAnimation1.toValue = changeColors1
-        colorAnimation1.duration = 5
+        colorAnimation1.duration = 2
         colorAnimation1.autoreverses = true
         colorAnimation1.isRemovedOnCompletion = false
         colorAnimation1.fillMode = CAMediaTimingFillMode.forwards
@@ -51,7 +51,7 @@ extension UIView {
         
         let colorAnimation2 = CABasicAnimation(keyPath: "colors")
         colorAnimation2.toValue = changeColors2
-        colorAnimation2.duration = 5
+        colorAnimation2.duration = 2
         colorAnimation2.autoreverses = true
         colorAnimation2.isRemovedOnCompletion = false
         colorAnimation2.fillMode = CAMediaTimingFillMode.forwards

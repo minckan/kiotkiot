@@ -124,6 +124,7 @@ class MainViewHeader : UICollectionReusableView {
         locationLabel.attributedText = viewModel.locationLabelText
         
         guard let currStatus = viewModel.weatherStatusList[0].weather.weatherStatus else {return}
+//        let currStatus = Weathers.rainSnow
         
         let dict : [String: Any] = [
             "image" : UIImage(named:currStatus.rawValue)!,

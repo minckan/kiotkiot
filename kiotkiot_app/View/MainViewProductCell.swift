@@ -34,8 +34,9 @@ class MainViewProductCell : UICollectionViewCell {
     private let tagLabel : UILabel = {
         let label = UILabel()
         label.text = "#바지"
-        label.font = UIFont(name: FontNeo.bold.rawValue, size: 16)
+        label.font = UIFont(name: FontNeo.bold.rawValue, size: 14)
         label.textColor = .darkGray
+        label.numberOfLines = 3
         return label
     }()
     
@@ -52,7 +53,7 @@ class MainViewProductCell : UICollectionViewCell {
         addSubview(productImageView)
         productImageView.snp.makeConstraints { make in
             make.top.left.right.equalTo(contentView)
-            make.height.equalTo(220)
+            make.height.equalTo(200)
         }
         
         
@@ -76,6 +77,8 @@ class MainViewProductCell : UICollectionViewCell {
     func configure() {
         guard let urlString = clothing?.detail.image else {return}
         let url = URL(string: urlString)
+        
+        
         productImageView.sd_setImage(with: url)
         tagLabel.text = clothing?.detail.title
     }
