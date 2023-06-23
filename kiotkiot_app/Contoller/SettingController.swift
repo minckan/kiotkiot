@@ -7,19 +7,38 @@
 
 import UIKit
 
+enum MenuType {
+    case toggle
+    case date
+    case transition
+    case radio
+    case nonfunctional
+}
+
+struct Menu {
+    var icon: UIImage?
+    let title: String
+    let type : MenuType
+    
+    init(iconName: String?, title: String, type: MenuType) {
+        if let iconName = iconName {
+            self.icon = UIImage(named: iconName)
+        }
+        
+        self.title = title
+        self.type = type
+    }
+}
+
 class SettingController : UICollectionViewController {
     // MARK: - Properties
+    private let menuList : [[Menu]] = [
+        [Menu(iconName: nil, title: "User_0513", type: .nonfunctional)],
+        [Menu(iconName: "user", title: "성별", type: .radio)],
+        [Menu(iconName: "notification", title: "푸시알림 on/off", type: .toggle), Menu(iconName: "calander", title: "알림시간 설정", type: .date)]
+    ]
     
     // MARK: - Lifecycles
-//    init() {
-//        let layout = UICollectionViewLayout()
-//        super.init(collectionViewLayout: layout)
-//    }
-//    
-//    required init?(coder: NSCoder) {
-//        super.init(coder: coder)
-//    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         configureCollectionView()
@@ -78,13 +97,7 @@ class SettingController : UICollectionViewController {
 
 extension SettingController  {
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        if section == 0 {
-            return 1
-        } else if section == 1 {
-            return 3
-        } else {
-            return 2
-        }
+        return menuList[section].count
     }
     
     override func numberOfSections(in collectionView: UICollectionView) -> Int {
@@ -93,14 +106,14 @@ extension SettingController  {
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SettingViewCell.identifier, for: indexPath) as! SettingViewCell
-
+        
+        cell.menu = menuList[indexPath.section][indexPath.row]
+        
         return cell
     }
     
     override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: SettingViewHeader.identifier, for: indexPath) as! SettingViewHeader
-        
-        printDebug(indexPath.section)
         
         if indexPath.section == 1 {
             header.headerText = "맞춤정보 설정"
