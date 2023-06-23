@@ -57,7 +57,7 @@ class MainViewController: UICollectionViewController {
         configureNavBar()
         setupCollectionView()
 
-      
+        NotificationCenter.default.addObserver(self, selector: #selector(appCameToForeground), name: UIApplication.didBecomeActiveNotification, object: nil)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -70,7 +70,7 @@ class MainViewController: UICollectionViewController {
         if let id = TAKUUIDStorage.sharedInstance().findOrCreate() {
             saveData(key: Const.shared.UUID, value: id)
             UserService.shared.registerDeviceId(uuid: id) {
-                printDebug("registerDeviceId successed!")
+                printDebug("registerDeviceId successed! id is \(id)")
             } errorHandler: { error in
                 printDebug("error orccured. \(error)")
             }
@@ -90,6 +90,7 @@ class MainViewController: UICollectionViewController {
     
     
     func getWeatherData() {
+        collectionView.refreshControl?.beginRefreshing()
         guard let position = currentPosition else {return}
 //        WeatherService.shared.fetchWeatherData(pos: position) { weatherInfo  in
 //            self.weatherInfo = weatherInfo
@@ -123,7 +124,9 @@ class MainViewController: UICollectionViewController {
     
     // MARK: Selectors
     @objc func handleSettingButtonTapped() {
-        navigationController?.pushViewController(SettingController(), animated: true)
+        let layout = UICollectionViewFlowLayout()
+        layout.minimumLineSpacing = 5
+        navigationController?.pushViewController(SettingController(collectionViewLayout: layout), animated: true)
     }
     
     @objc func handleNotificationButtonTapped() {
@@ -142,6 +145,11 @@ class MainViewController: UICollectionViewController {
     
     
     @objc func handleRefresh() {
+        getWeatherData()
+    }
+    
+    @objc func appCameToForeground() {
+        locationManager.startUpdatingLocation()
         getWeatherData()
     }
 

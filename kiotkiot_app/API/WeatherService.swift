@@ -73,7 +73,7 @@ struct WeatherService {
             case .success(let data):
                 completionHandler(data)
             case .failure(let error):
-                printDebug(error)
+                printDebug("<fetchRecommendationCloth>\(error)")
             }
         }
     }
