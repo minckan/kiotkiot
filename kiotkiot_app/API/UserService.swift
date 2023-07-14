@@ -14,15 +14,17 @@ struct UserService {
     func registerDeviceId(uuid: String, completionHandler: @escaping()->Void, errorHandler: @escaping(String) -> ()) {
         let url = BASE_API_URL + "/user/register/me"
         let params = ["device_id" : uuid] as Dictionary
-        
+
         
         AF.request(
             url,
             method: .post,
             parameters: params,
-            encoding: URLEncoding.default,
+            encoding: JSONEncoding.default,
             headers: ["Content-Type":"application/json", "Accept":"application/json"]
-        ).response { response in
+        )
+        .validate(statusCode: 200..<300)
+        .response { response in
             switch response.result {
                 
             case .success(_):
@@ -42,9 +44,11 @@ struct UserService {
             url,
             method: .post,
             parameters: dictionary,
-            encoding: URLEncoding.default,
+            encoding: JSONEncoding.default,
             headers: ["Content-Type":"application/json", "Accept":"application/json"]
-        ).response { response in
+        )
+        .validate(statusCode: 200..<300)
+        .response { response in
             switch response.result {
                 
             case .success(_):
@@ -63,9 +67,11 @@ struct UserService {
             url,
             method: .post,
             parameters: dictionary,
-            encoding: URLEncoding.default,
+            encoding: JSONEncoding.default,
             headers: ["Content-Type":"application/json", "Accept":"application/json"]
-        ).response { response in
+        )
+        .validate(statusCode: 200..<300)
+        .response { response in
             switch response.result {
                 
             case .success(_):

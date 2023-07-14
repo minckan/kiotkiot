@@ -18,6 +18,8 @@ import LinkPresentation
 class MainViewController: UICollectionViewController {
     // MARK: Properties
     
+    private var isAbleToReload = true
+    
     private var metaData: LPLinkMetadata = LPLinkMetadata() {
         didSet {
             DispatchQueue.main.async {
@@ -30,7 +32,7 @@ class MainViewController: UICollectionViewController {
     var uuid: String?
     private var currentPosition:Position? {
         didSet {
-            printDebug("position changed!")
+            printDebug("position changed! \(currentPosition)")
             getWeatherData()
         }
     }
@@ -313,6 +315,7 @@ extension MainViewController {
                 if let url = URL(string: href) {
                     if UIApplication.shared.canOpenURL(url) {
                         DispatchQueue.main.async {
+                            self.isAbleToReload = false
                             UIApplication.shared.open(url, options: [:], completionHandler: nil)
                         }
                     }
@@ -363,6 +366,7 @@ extension MainViewController {
 extension MainViewController : CLLocationManagerDelegate {
 
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        printDebug("⭐️⭐️⭐️ didUpdateLocations : \(locations)")
 
         if let location = locations.last {
             currentPosition = Position(lat: location.coordinate.latitude, lon: location.coordinate.longitude)

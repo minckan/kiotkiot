@@ -12,6 +12,7 @@ class TodaysWeatherListView : UIView {
     // MARK: - Properties
     var weathers : [Weather]? {
         didSet {
+          
             collectionView.reloadData()
         }
     }

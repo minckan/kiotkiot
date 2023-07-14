@@ -31,7 +31,7 @@ struct WeatherService {
             encoding: URLEncoding.queryString,
             headers:httpHeaders
         )
-        .validate()
+        .validate(statusCode: 200..<300)
         .responseDecodable(of: WeatherInfo.self) { response in
             guard let weatherInfo = response.value else {return}
             completionHandler(weatherInfo)
@@ -57,7 +57,7 @@ struct WeatherService {
             ]
         ]
         
-        
+        printDebug(body)
 
         AF.request(
             url,
@@ -66,11 +66,12 @@ struct WeatherService {
             encoding: JSONEncoding.default,
             headers: httpHeaders
         )
-        .validate()
+        .validate(statusCode: 200..<300)
         .responseDecodable(of: RecommendationModel.self) { response in
             switch response.result {
 
             case .success(let data):
+                printDebug(data)
                 completionHandler(data)
             case .failure(let error):
                 printDebug("<fetchRecommendationCloth>\(error)")
