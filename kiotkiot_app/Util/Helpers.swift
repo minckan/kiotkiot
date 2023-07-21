@@ -29,8 +29,20 @@ public func printDebug(_ message: Any) {
     print("DEBUG: \(message)")
 }
 
-public func saveData(key : String, value: String) {
-    UserDefaults.standard.set(value, forKey: key)
+public func printWithLabel(label: String, message: Any) {
+    print("[\(label)] \(message)")
+}
+
+public func printSuccessWithLabel(label: String, message: Any) {
+    print("⭐️Success⭐️[\(label)] \(message)")
+}
+
+public func printErrorWithLabel(label: String, message: Any) {
+    print("❗️Error❗️[\(label)] \(message)")
+}
+
+public func saveData(key : String, value: Any) {
+    UserDefaults.standard.set(value, forKey: String(key))
 }
 
 public func getData(key:String) -> String? {

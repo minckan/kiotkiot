@@ -6,10 +6,16 @@
 //
 
 import UIKit
+import UserNotifications
+
+import FirebaseCore
+import FirebaseMessaging
+
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
-
+    var window: UIWindow?
+    let gcmMessageIDKey = "gcm.message_ID"
 
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
@@ -24,6 +30,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //        if #available(iOS 15.0, *) {
 //            appearance.compactScrollEdgeAppearance = newNavBarAppearance
 //        }
+        
+        FirebaseApp.configure()
+        
+        Messaging.messaging().delegate = self
+        
+        UNUserNotificationCenter.current().delegate = self
+        
+        let authOption : UNAuthorizationOptions = [.alert, .badge, .sound]
+        UNUserNotificationCenter.current().requestAuthorization(options: authOption, completionHandler: {_, _ in })
+        
+        application.registerForRemoteNotifications()
+                                                                
         
         return true
     }
@@ -41,7 +59,71 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // If any sessions were discarded while the application was not running, this will be called shortly after application:didFinishLaunchingWithOptions.
         // Use this method to release any resources that were specific to the discarded scenes, as they will not return.
     }
+    
+    func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any]) {
+        // receive message while the app is in the background, this callback WILL NOT be fired.
+        // TODO: Handle Data Of Notification
+        
+        if let messageID = userInfo[gcmMessageIDKey] {
+            printDebug("[didReceiveRemoteNotification] Message ID : \(messageID)")
+        }
+        
+        printDebug("[didReceiveRemoteNotification] userInfo is \(userInfo)")
+    }
+    
+    func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any]) async -> UIBackgroundFetchResult {
+        // receive message while the app is in the background, this callback WILL NOT be fired.
+        // TODO: Handle Data Of Notification
+        if let messageID = userInfo[gcmMessageIDKey] {
+            printDebug("[didReceiveRemoteNotification] Message ID : \(messageID)")
+        }
+        
+        printDebug("[didReceiveRemoteNotification] userInfo is \(userInfo)")
+        
+        return UIBackgroundFetchResult.newData
+    }
 
-
+    func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
+        printDebug("Unable to register for remote notification: \(error.localizedDescription)")
+    }
+    
+    func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
+        //This function is added here only for debugging purpose.
+        
+        printDebug("APNS token retrieved: \(deviceToken)")
+        Messaging.messaging().apnsToken = deviceToken
+    }
 }
 
+extension AppDelegate : UNUserNotificationCenterDelegate {
+    func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification) async -> UNNotificationPresentationOptions {
+        let userInfo = notification.request.content.userInfo
+        
+        if let messageID = userInfo[gcmMessageIDKey] {
+            printDebug("[willPresent] Message ID: \(messageID)")
+        }
+        
+        printDebug("[willPresent] userInfo is \(userInfo)")
+            
+        return [[.sound]]
+    }
+    
+    func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse) async {
+        let userInfo = response.notification.request.content.userInfo
+        
+        if let messgeID = userInfo[gcmMessageIDKey] {
+            printDebug("[didReceive] Message ID: \(messgeID)")
+        }
+        
+        printDebug("[didReceive] userInfo is \(userInfo)")
+    }
+}
+
+extension AppDelegate : MessagingDelegate {
+    func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String?) {
+        printDebug("Firebase registration token: \(String(describing: fcmToken))")
+        
+        let dataDict: [String: String] = ["token": fcmToken ?? ""]
+        NotificationCenter.default.post(name: Notification.Name("FCMToken"), object: nil, userInfo: dataDict)
+    }
+}

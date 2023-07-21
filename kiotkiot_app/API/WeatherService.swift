@@ -8,7 +8,10 @@
 import Foundation
 import Alamofire
 
-
+enum Gender : String, CaseIterable {
+    case M = "M"
+    case W = "W"
+}
 
 struct WeatherService {
     static let shared = WeatherService()
@@ -22,7 +25,6 @@ struct WeatherService {
             "latitude": pos.lat,
             "longitude" : pos.lon
         ]
-    
         
         AF.request(
             url,
@@ -33,15 +35,20 @@ struct WeatherService {
         )
         .validate(statusCode: 200..<300)
         .responseDecodable(of: WeatherInfo.self) { response in
-            guard let weatherInfo = response.value else {return}
-            completionHandler(weatherInfo)
+            
+            
+            switch response.result {
+                
+            case .success(_):
+                guard let weatherInfo = response.value else {return}
+                completionHandler(weatherInfo)
+            case .failure(let error):
+                printErrorWithLabel(label: "fetchWeatherData", message: error.localizedDescription)
+            }
         }
     }
     
-    enum Gender : String, CaseIterable {
-        case M = "M"
-        case W = "W"
-    }
+
     
     func fetchRecommendationCloth(id: String, gender: Gender, pos: Position,
                                           completionHandler: @escaping(RecommendationModel)->Void
@@ -56,10 +63,8 @@ struct WeatherService {
                 "longitude": pos.lon
             ]
         ]
-        
-        printDebug(body)
 
-        AF.request(
+        BaseService.session.request(
             url,
             method: .post,
             parameters: body,
@@ -71,10 +76,9 @@ struct WeatherService {
             switch response.result {
 
             case .success(let data):
-                printDebug(data)
                 completionHandler(data)
             case .failure(let error):
-                printDebug("<fetchRecommendationCloth>\(error)")
+                printErrorWithLabel(label: "fetchRecommendationCloth", message: error.localizedDescription)
             }
         }
     }

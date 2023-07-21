@@ -33,13 +33,30 @@ struct WeatherInfoViewModel {
     }
     
     var weatherStatusText : String {
-        
         return ""
     }
     
+    
     var weatherStatusList : [FcsWeather] {
-        return weatherInfo.fcsWeathers.filter({$0.weather.weatherStatus != nil})
+        let hasWeatherStatusItems = weatherInfo.fcsWeathers.filter({$0.weather.weatherStatus != nil})
+        let skyStatItems = hasWeatherStatusItems.filter({$0.weather.weatherCode == "SKY"})
+        let ptyStatItems = hasWeatherStatusItems.filter({$0.weather.weatherCode == "PTY"})
+        var weatherList : [FcsWeather] = []
+        skyStatItems.forEach { skyItem in
+            let ptyItems = ptyStatItems.filter({ $0.fcsTime == skyItem.fcsTime})
+            if !ptyItems.isEmpty {
+                weatherList.append(ptyItems[0])
+            } else {
+                weatherList.append(skyItem)
+            }
+        }
+        
+        weatherList = weatherList.sorted { Int($0.fcsTime) ?? 0 < Int($1.fcsTime) ?? 0 }
+        
+        return weatherList
     }
+    
+    
     
     
 }

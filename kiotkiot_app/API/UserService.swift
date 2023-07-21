@@ -11,12 +11,15 @@ import Alamofire
 struct UserService {
     static let shared = UserService()
     
-    func registerDeviceId(uuid: String, completionHandler: @escaping()->Void, errorHandler: @escaping(String) -> ()) {
-        let url = BASE_API_URL + "/user/register/me"
+    let User_API_URL = BASE_API_URL + "/user/register"
+    
+    
+    func registerDeviceId(uuid: String, completionHandler: @escaping()->Void) {
+        let url = User_API_URL + "/me"
         let params = ["device_id" : uuid] as Dictionary
 
         
-        AF.request(
+        BaseService.session.request(
             url,
             method: .post,
             parameters: params,
@@ -30,17 +33,17 @@ struct UserService {
             case .success(_):
                 completionHandler()
             case .failure(let error):
-                errorHandler(error.localizedDescription)
+                printErrorWithLabel(label: "registerDeviceId", message: error.localizedDescription)
             }
         }
     }
     
 
     
-    func registerPushData(dictionary: Dictionary<String, String>, completionHandler: @escaping()->Void, errorHandler: @escaping(String) -> ()) {
-        let url = BASE_API_URL + "/user/register/me/push"
+    func registerPushData(dictionary: Dictionary<String, Any>, completionHandler: @escaping()->Void) {
+        let url = User_API_URL + "/me/push"
         
-        AF.request(
+        BaseService.session.request(
             url,
             method: .post,
             parameters: dictionary,
@@ -54,14 +57,14 @@ struct UserService {
             case .success(_):
                 completionHandler()
             case .failure(let error):
-                errorHandler(error.localizedDescription)
+                printErrorWithLabel(label: "registerPushData", message: error.localizedDescription)
             }
         }
     }
     
     
     func registerInterests(dictionary: Dictionary<String, String>, completionHandler: @escaping()->Void, errorHandler: @escaping(String) -> ()) {
-        let url = BASE_API_URL + "/user/register/interesting"
+        let url = User_API_URL + "/interesting"
         
         AF.request(
             url,
@@ -77,7 +80,7 @@ struct UserService {
             case .success(_):
                 completionHandler()
             case .failure(let error):
-                errorHandler(error.localizedDescription)
+                printErrorWithLabel(label: "registerInterests", message: error.localizedDescription)
             }
         }
     }

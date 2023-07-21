@@ -21,7 +21,7 @@ class MainViewController: UICollectionViewController {
     private var isAbleToReload = true
     
     private var metaData: LPLinkMetadata = LPLinkMetadata() {
-        didSet {
+        didSet{
             DispatchQueue.main.async {
                 self.shareURLWithMetadata(metadata: self.metaData)
             }
@@ -31,9 +31,12 @@ class MainViewController: UICollectionViewController {
     var locationManager = CLLocationManager()
     var uuid: String?
     private var currentPosition:Position? {
-        didSet {
-            printDebug("position changed! \(currentPosition)")
-            getWeatherData()
+        didSet(oldValue) {
+            if (oldValue != currentPosition) {
+                printWithLabel(label: "getWeatherData", message: "\(oldValue) AND \(currentPosition)")
+                getWeatherData()
+            }
+            
         }
     }
     private var info : RecommendationModel? {
@@ -52,7 +55,7 @@ class MainViewController: UICollectionViewController {
         super.viewDidLoad()
   
         
-        registerUUID()
+        registerAndCheckUUID()
         getCurrentPosition()
         
         configureUI()
@@ -60,6 +63,8 @@ class MainViewController: UICollectionViewController {
         setupCollectionView()
 
         NotificationCenter.default.addObserver(self, selector: #selector(appCameToForeground), name: UIApplication.didBecomeActiveNotification, object: nil)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(handleFCMToken), name: NSNotification.Name("FCMToken"), object: nil)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -67,32 +72,24 @@ class MainViewController: UICollectionViewController {
     }
     
     // MARK: - Apis
-    func registerUUID() {
-        
+    func registerAndCheckUUID() {
         if let id = TAKUUIDStorage.sharedInstance().findOrCreate() {
+            // 이미 만들어진 id가 있음
             saveData(key: Const.shared.UUID, value: id)
-            UserService.shared.registerDeviceId(uuid: id) {
-                printDebug("registerDeviceId successed! id is \(id)")
-            } errorHandler: { error in
-                printDebug("error orccured. \(error)")
-            }
         } else {
             guard let uuid = createAndGetUUID() else {return}
-            printDebug(uuid)
             saveData(key: Const.shared.UUID, value: uuid)
             UserService.shared.registerDeviceId(uuid: uuid) {
                 printDebug("registerDeviceId successed!")
-            } errorHandler: { error in
-                printDebug("error orccured. \(error)")
             }
         }
-        
-       
+
     }
     
     
     func getWeatherData() {
         collectionView.refreshControl?.beginRefreshing()
+        printWithLabel(label: "getWeatherData", message: currentPosition)
         guard let position = currentPosition else {return}
 //        WeatherService.shared.fetchWeatherData(pos: position) { weatherInfo  in
 //            self.weatherInfo = weatherInfo
@@ -102,15 +99,17 @@ class MainViewController: UICollectionViewController {
         
         guard let uuid : String = getData(key: Const.shared.UUID) else {return}
         
-        clothings = []
+        
         
         WeatherService.shared.fetchRecommendationCloth(id: uuid, gender: .W, pos: position)
         { info in
             
             DispatchQueue.main.async {
                 self.info = info
+                self.clothings = []
 
                 let clothingsInfo = info.recommendationClothing
+                
                 let mirror = Mirror(reflecting: clothingsInfo)
                 for case let (label?, value as ClothingDetails) in mirror.children {
                     if value.image != nil {
@@ -125,6 +124,20 @@ class MainViewController: UICollectionViewController {
     }
     
     // MARK: Selectors
+    @objc func handleFCMToken(_ notification: Notification) {
+        guard let deviceId = getData(key:Const.shared.UUID) else {return}
+        let pushStatus = Bool(getData(key: Const.shared.PUSH_STATUS) ?? "false") ?? false
+        let pushTime = getData(key: Const.shared.PUSH_TIME) ?? ""
+        if let userInfo = notification.userInfo {
+            if let token = userInfo["token"] {
+                let dict: [String: Any] = ["device_id": deviceId, "push_id": token as! String, "is_using_push": pushStatus, "hhmm": pushTime]
+                
+                UserService.shared.registerPushData(dictionary: dict) {
+                    printDebug("[handleFCMToken] success!")
+                }
+            }
+        }
+    }
     @objc func handleSettingButtonTapped() {
         let layout = UICollectionViewFlowLayout()
         layout.minimumLineSpacing = 5
@@ -140,11 +153,7 @@ class MainViewController: UICollectionViewController {
         shareURLWithMetadata(metadata: metaData)
 
     }
-    
-    @objc func handleRefreshButtonTapped() {
-        getWeatherData()
-    }
-    
+        
     
     @objc func handleRefresh() {
         getWeatherData()
@@ -152,7 +161,6 @@ class MainViewController: UICollectionViewController {
     
     @objc func appCameToForeground() {
         locationManager.startUpdatingLocation()
-        getWeatherData()
     }
 
     
@@ -197,7 +205,7 @@ class MainViewController: UICollectionViewController {
         let setting = makeBarButton("setting", selector: #selector(handleSettingButtonTapped))
         let notification = makeBarButton("notification", selector: #selector(handleNotificationButtonTapped))
         let share = makeBarButton("share", selector: #selector(handleShareButtonTapped))
-        let refresh = makeBarButton("refresh", selector: #selector(handleRefreshButtonTapped))
+        let refresh = makeBarButton("refresh", selector: #selector(handleRefresh))
         navigationItem.leftBarButtonItems = [setting]
         navigationItem.rightBarButtonItems = [share, refresh]
     }
@@ -280,6 +288,7 @@ extension MainViewController {
         let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: MainViewHeader.identifier, for: indexPath) as! MainViewHeader
         
         if let weatherInfo = info?.weather {
+       
             header.weatherInfo = weatherInfo
         }
         
@@ -366,12 +375,13 @@ extension MainViewController {
 extension MainViewController : CLLocationManagerDelegate {
 
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        printDebug("⭐️⭐️⭐️ didUpdateLocations : \(locations)")
 
         if let location = locations.last {
             currentPosition = Position(lat: location.coordinate.latitude, lon: location.coordinate.longitude)
             
             locationManager.stopUpdatingLocation()
+            
+            
         }
     }
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {

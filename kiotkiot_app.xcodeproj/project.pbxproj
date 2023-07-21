@@ -36,7 +36,12 @@
 		8C568F7E2A2DDC1900A925BF /* Fonts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C568F7D2A2DDC1900A925BF /* Fonts.swift */; };
 		8C622EF52A41408B005F6130 /* Share.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C622EF42A41408B005F6130 /* Share.swift */; };
 		8C622EF72A41A2C6005F6130 /* SettingController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C622EF62A41A2C6005F6130 /* SettingController.swift */; };
+		8C689C252A662A3A0048B84D /* APIEventLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C689C242A662A3A0048B84D /* APIEventLogger.swift */; };
+		8C689C272A662A890048B84D /* BaseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C689C262A662A890048B84D /* BaseService.swift */; };
 		8C753CF02A455E1200CEE000 /* SettingViewHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C753CEF2A455E1200CEE000 /* SettingViewHeader.swift */; };
+		8C75B7AD2A6A146200CE5DB2 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8C75B7AC2A6A146200CE5DB2 /* GoogleService-Info.plist */; };
+		8C75B7B12A6A1A5800CE5DB2 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 8C75B7B02A6A1A5800CE5DB2 /* FirebaseAnalytics */; };
+		8C75B7B32A6A1A5800CE5DB2 /* FirebaseMessaging in Frameworks */ = {isa = PBXBuildFile; productRef = 8C75B7B22A6A1A5800CE5DB2 /* FirebaseMessaging */; };
 		8C9614CE2A33263B007BDE73 /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8C9614CD2A33263B007BDE73 /* WebKit.framework */; };
 		8CADE1082A3012D8005AF17A /* TodaysWeatherListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CADE1072A3012D8005AF17A /* TodaysWeatherListView.swift */; };
 		8CADE10A2A301559005AF17A /* TodaysWeatherListViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CADE1092A301559005AF17A /* TodaysWeatherListViewCell.swift */; };
@@ -79,7 +84,10 @@
 		8C568F7D2A2DDC1900A925BF /* Fonts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Fonts.swift; sourceTree = "<group>"; };
 		8C622EF42A41408B005F6130 /* Share.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Share.swift; sourceTree = "<group>"; };
 		8C622EF62A41A2C6005F6130 /* SettingController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingController.swift; sourceTree = "<group>"; };
+		8C689C242A662A3A0048B84D /* APIEventLogger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIEventLogger.swift; sourceTree = "<group>"; };
+		8C689C262A662A890048B84D /* BaseService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseService.swift; sourceTree = "<group>"; };
 		8C753CEF2A455E1200CEE000 /* SettingViewHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewHeader.swift; sourceTree = "<group>"; };
+		8C75B7AC2A6A146200CE5DB2 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		8C9614CD2A33263B007BDE73 /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
 		8CADE1072A3012D8005AF17A /* TodaysWeatherListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodaysWeatherListView.swift; sourceTree = "<group>"; };
 		8CADE1092A301559005AF17A /* TodaysWeatherListViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodaysWeatherListViewCell.swift; sourceTree = "<group>"; };
@@ -95,6 +103,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8C75B7B32A6A1A5800CE5DB2 /* FirebaseMessaging in Frameworks */,
+				8C75B7B12A6A1A5800CE5DB2 /* FirebaseAnalytics in Frameworks */,
 				8C9614CE2A33263B007BDE73 /* WebKit.framework in Frameworks */,
 				8C4F057B2A315E20003BBB70 /* TAKUUID in Frameworks */,
 				8C568F782A2DD32600A925BF /* SnapKit in Frameworks */,
@@ -142,6 +152,7 @@
 				8C568F552A2DA53A00A925BF /* Assets.xcassets */,
 				8C568F572A2DA53A00A925BF /* LaunchScreen.storyboard */,
 				8C568F5A2A2DA53A00A925BF /* Info.plist */,
+				8C75B7AC2A6A146200CE5DB2 /* GoogleService-Info.plist */,
 			);
 			path = kiotkiot_app;
 			sourceTree = "<group>";
@@ -174,6 +185,7 @@
 			children = (
 				8C4F057D2A3163EB003BBB70 /* UserService.swift */,
 				8C4F05812A31945C003BBB70 /* WeatherService.swift */,
+				8C689C262A662A890048B84D /* BaseService.swift */,
 			);
 			path = API;
 			sourceTree = "<group>";
@@ -195,6 +207,7 @@
 				8CADE1132A30730E005AF17A /* Preview.swift */,
 				8C4F057F2A316478003BBB70 /* Constant.swift */,
 				8C622EF42A41408B005F6130 /* Share.swift */,
+				8C689C242A662A3A0048B84D /* APIEventLogger.swift */,
 			);
 			path = Util;
 			sourceTree = "<group>";
@@ -261,6 +274,8 @@
 				8C4F057A2A315E20003BBB70 /* TAKUUID */,
 				8CD0AB952A32FBE9002AD65F /* SDWebImage */,
 				8C4392242A36DFFD00789AE9 /* SwiftSoup */,
+				8C75B7B02A6A1A5800CE5DB2 /* FirebaseAnalytics */,
+				8C75B7B22A6A1A5800CE5DB2 /* FirebaseMessaging */,
 			);
 			productName = kiotkiot_app;
 			productReference = 8C568F492A2DA53800A925BF /* kiotkiot_app.app */;
@@ -296,6 +311,7 @@
 				8C4F05792A315E20003BBB70 /* XCRemoteSwiftPackageReference "TAKUUID" */,
 				8CD0AB942A32FBE9002AD65F /* XCRemoteSwiftPackageReference "SDWebImage" */,
 				8C4392232A36DFFD00789AE9 /* XCRemoteSwiftPackageReference "SwiftSoup" */,
+				8C75B7AF2A6A1A5800CE5DB2 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 			);
 			productRefGroup = 8C568F4A2A2DA53800A925BF /* Products */;
 			projectDirPath = "";
@@ -313,6 +329,7 @@
 			files = (
 				8C568F6F2A2DD17900A925BF /* NanumSquareNeo-aLt.ttf in Resources */,
 				8C568F6D2A2DD05600A925BF /* NanumSquareNeo-bRg.ttf in Resources */,
+				8C75B7AD2A6A146200CE5DB2 /* GoogleService-Info.plist in Resources */,
 				8C568F592A2DA53A00A925BF /* LaunchScreen.storyboard in Resources */,
 				8C568F562A2DA53A00A925BF /* Assets.xcassets in Resources */,
 				8C568F752A2DD18100A925BF /* NanumSquareNeo-eHv.ttf in Resources */,
@@ -333,6 +350,7 @@
 				8C622EF52A41408B005F6130 /* Share.swift in Sources */,
 				8C753CF02A455E1200CEE000 /* SettingViewHeader.swift in Sources */,
 				8C4F05802A316478003BBB70 /* Constant.swift in Sources */,
+				8C689C272A662A890048B84D /* BaseService.swift in Sources */,
 				8C092C692A428A74006DAD41 /* SettingViewCell.swift in Sources */,
 				8C568F7C2A2DD8D900A925BF /* TodaysWeatherView.swift in Sources */,
 				8C568F512A2DA53800A925BF /* MainViewController.swift in Sources */,
@@ -347,6 +365,7 @@
 				8C4F05862A31B28F003BBB70 /* Date.swift in Sources */,
 				8CADE1102A305FD4005AF17A /* Weather.swift in Sources */,
 				8CADE1082A3012D8005AF17A /* TodaysWeatherListView.swift in Sources */,
+				8C689C252A662A3A0048B84D /* APIEventLogger.swift in Sources */,
 				8CADE10E2A302190005AF17A /* MainViewProductCell.swift in Sources */,
 				8C4F05882A31B5FE003BBB70 /* WeatherInfoViewModel.swift in Sources */,
 				8C4F057E2A3163EB003BBB70 /* UserService.swift in Sources */,
@@ -612,6 +631,14 @@
 				kind = branch;
 			};
 		};
+		8C75B7AF2A6A1A5800CE5DB2 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 10.0.0;
+			};
+		};
 		8CADE1152A30848D005AF17A /* XCRemoteSwiftPackageReference "Alamofire" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/Alamofire/Alamofire.git";
@@ -645,6 +672,16 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 8C568F762A2DD32600A925BF /* XCRemoteSwiftPackageReference "SnapKit" */;
 			productName = SnapKit;
+		};
+		8C75B7B02A6A1A5800CE5DB2 /* FirebaseAnalytics */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 8C75B7AF2A6A1A5800CE5DB2 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAnalytics;
+		};
+		8C75B7B22A6A1A5800CE5DB2 /* FirebaseMessaging */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 8C75B7AF2A6A1A5800CE5DB2 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseMessaging;
 		};
 		8CADE1162A30848D005AF17A /* Alamofire */ = {
 			isa = XCSwiftPackageProductDependency;

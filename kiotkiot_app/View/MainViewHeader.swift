@@ -62,6 +62,8 @@ class MainViewHeader : UICollectionReusableView {
     // MARK: - Lifecycles
     override init(frame: CGRect) {
         super.init(frame: frame)
+        
+     
     
     }
     
@@ -73,6 +75,7 @@ class MainViewHeader : UICollectionReusableView {
     @objc func handleGPSButtonTapped() {
         delegate?.refetchLocation()
     }
+
     
     // MARK: - Helpers
     private func configureUI() {
@@ -135,6 +138,8 @@ class MainViewHeader : UICollectionReusableView {
         ]
         
         let weather = Weather(weatherData: dict)
+        
+        printWithLabel(label: "MainViewHeader:currStatus", message: viewModel.weatherStatusList)
         
 
         weatherView.weather = weather

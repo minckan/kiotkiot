@@ -7,6 +7,8 @@
 
 import UIKit
 
+
+
 class SettingViewCell : UICollectionViewCell {
     // MARK: - Properties
     static let identifier = "SettingViewCell"
@@ -59,8 +61,23 @@ class SettingViewCell : UICollectionViewCell {
     }
     
     // MARK: - Selectors
-    @objc func handlePushOnOffButton() {
-        
+    @objc func handlePushOnOffButton(sender: UISwitch) {
+        saveData(key: Const.shared.PUSH_STATUS, value: "\(sender.isOn)")
+    }
+    
+    @objc func handleGenderChange(segcon: UISegmentedControl) {
+        printWithLabel(label: "handleGenderChange", message: segcon.selectedSegmentIndex)
+        let genderString = segcon.selectedSegmentIndex == 0 ? Gender.M : Gender.W
+        saveData(key: Const.shared.USER_GENDER, value: genderString.rawValue)
+    }
+    
+    @objc func handleTimeChanged(datepic: UIDatePicker) {
+        let dateFormatter = DateFormatter()
+        dateFormatter.locale = Locale(identifier: "ko_KR")
+        dateFormatter.dateFormat = "HHmm"
+     
+        let localizedDateString = dateFormatter.string(from:datepic.date)
+        saveData(key: Const.shared.PUSH_TIME, value: localizedDateString)
     }
     
     // MARK: - Helpers
@@ -106,12 +123,15 @@ class SettingViewCell : UICollectionViewCell {
         switch type {
         case .toggle:
             let switchButton = UISwitch()
+            switchButton.setOn(Bool(getData(key: Const.shared.PUSH_STATUS) ?? "false") ?? false, animated: true)
+           
             switchButton.onTintColor = .weatherBlue
             switchButton.addTarget(self, action: #selector(handlePushOnOffButton), for: .allTouchEvents)
             view = switchButton
         case .date:
             let datePicker = UIDatePicker()
             datePicker.datePickerMode = .time
+            datePicker.addTarget(self, action: #selector(handleTimeChanged), for: .valueChanged)
             
             view = datePicker
         case .transition:
@@ -121,7 +141,11 @@ class SettingViewCell : UICollectionViewCell {
             segmentedControl.insertSegment(withTitle: "남", at: 0, animated: true)
             segmentedControl.insertSegment(withTitle: "여", at: 1, animated: true)
             segmentedControl.snp.makeConstraints({$0.width.equalTo(100)})
-            segmentedControl.selectedSegmentIndex = 0
+        
+            let savedGender = getData(key: Const.shared.USER_GENDER) ?? Gender.W.rawValue
+            
+            segmentedControl.selectedSegmentIndex = savedGender == Gender.M.rawValue ? 0 : 1
+            segmentedControl.addTarget(self, action: #selector(handleGenderChange), for: .valueChanged)
             
             view = segmentedControl
         case .nonfunctional:
