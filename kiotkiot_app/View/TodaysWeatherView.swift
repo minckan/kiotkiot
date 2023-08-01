@@ -113,6 +113,11 @@ class TodaysWeatherView : UIView {
                 make.bottom.equalTo(self).offset(-25)
                 make.left.right.equalTo(self)
             }
+            
+            
+            
+            
+            saveViewAsImage(view: self)
         }
        
     }

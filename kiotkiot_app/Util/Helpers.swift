@@ -25,6 +25,30 @@ func getFontName() {
     }
 }
 
+// 뷰를 이미지로 저장하는 함수
+func saveViewAsImage(view: UIView) {
+    let renderer = UIGraphicsImageRenderer(size: view.bounds.size)
+    print("[SAVE_VIEW] 이미지 저장 호출")
+    let image = renderer.image { context in
+        view.drawHierarchy(in: view.bounds, afterScreenUpdates: true)
+    }
+    
+    if let imageData = image.pngData() { // 또는 jpegData(compressionQuality: 1.0)로 저장할 수도 있습니다.
+        // 이미지 데이터를 파일로 저장 (이 부분을 앱의 필요한 위치로 변경하세요)
+        let fileURL = FileManager.default.temporaryDirectory.appendingPathComponent("todays_weather.png")
+        do {
+            try imageData.write(to: fileURL)
+            print("[SAVE_VIEW] 이미지 저장 성공: \(fileURL)")
+            
+        } catch {
+            print("[SAVE_VIEW] 이미지 저장 실패: \(error)")
+        }
+    }
+    
+    print("[SAVE_VIEW] 이미지 저장 종료")
+}
+
+
 public func printDebug(_ message: Any) {
     print("DEBUG: \(message)")
 }

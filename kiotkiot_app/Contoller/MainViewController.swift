@@ -150,6 +150,7 @@ class MainViewController: UICollectionViewController {
     }
     
     @objc func handleShareButtonTapped() {
+
         self.metaData = getMetadataForSharingManually(title: "오늘의 기온별 옷차림을 공유해보세요!", url: nil, fileName: nil, fileType: nil)
         shareURLWithMetadata(metadata: metaData)
 
