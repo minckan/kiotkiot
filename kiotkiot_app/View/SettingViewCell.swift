@@ -19,6 +19,8 @@ class SettingViewCell : UICollectionViewCell {
         }
     }
     
+    
+    
     private let innerContentView : UIView = {
         let view = UIView()
         view.backgroundColor = .white
@@ -62,25 +64,29 @@ class SettingViewCell : UICollectionViewCell {
     
     // MARK: - Selectors
     @objc func handlePushOnOffButton(sender: UISwitch) {
-        saveData(key: Const.shared.PUSH_STATUS, value: "\(sender.isOn)")
+        saveData(key: Const.shared.TEMP_PUSH_STATUS, value: "\(sender.isOn)")
     }
     
     @objc func handleGenderChange(segcon: UISegmentedControl) {
         printWithLabel(label: "handleGenderChange", message: segcon.selectedSegmentIndex)
         let genderString = segcon.selectedSegmentIndex == 0 ? Gender.M : Gender.W
-        saveData(key: Const.shared.USER_GENDER, value: genderString.rawValue)
+        saveData(key: Const.shared.TEMP_USER_GENDER, value: genderString.rawValue)
     }
     
     @objc func handleTimeChanged(datepic: UIDatePicker) {
-        let dateFormatter = DateFormatter()
-        dateFormatter.locale = Locale(identifier: "ko_KR")
-        dateFormatter.dateFormat = "HHmm"
-     
-        let localizedDateString = dateFormatter.string(from:datepic.date)
-        saveData(key: Const.shared.PUSH_TIME, value: localizedDateString)
+        let formmatedValue = getDataFormmatter().string(from:datepic.date)
+        saveData(key: Const.shared.TEMP_PUSH_TIME, value:formmatedValue)
     }
     
     // MARK: - Helpers
+    func getDataFormmatter() -> DateFormatter {
+        let dateFormatter = DateFormatter()
+        dateFormatter.locale = Locale(identifier: "ko_KR")
+        dateFormatter.dateFormat = "HH:mm"
+     
+      
+        return dateFormatter
+    }
     func cofigureUI() {
        
         contentView.addSubview(innerContentView)
@@ -131,6 +137,16 @@ class SettingViewCell : UICollectionViewCell {
         case .date:
             let datePicker = UIDatePicker()
             datePicker.datePickerMode = .time
+            
+            let dateFormmatter = getDataFormmatter()
+            if let timeValue = getData(key: Const.shared.PUSH_TIME) {
+                guard let date = dateFormmatter.date(from: timeValue) else { return  }
+                datePicker.setDate(date, animated: true)
+            } else {
+                guard let date = dateFormmatter.date(from: "08:00") else { return  }
+                datePicker.setDate(date, animated: true)
+            }
+            
             datePicker.addTarget(self, action: #selector(handleTimeChanged), for: .valueChanged)
             
             view = datePicker

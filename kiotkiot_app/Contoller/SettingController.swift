@@ -52,6 +52,42 @@ class SettingController : UICollectionViewController {
     }
     
     @objc func handleSaveButton() {
+        guard let deviceId = getData(key:Const.shared.UUID) else {return}
+        var dict: [String: Any] = ["device_id": deviceId, "push_id": "", "is_using_push": "", "hhmm": ""]
+        if let token = getData(key: Const.shared.PUSH_ID) {
+            dict["push_id"] = token
+        }
+        
+        if let user_gender = getData(key: Const.shared.TEMP_USER_GENDER) {
+            saveData(key: Const.shared.USER_GENDER, value: user_gender)
+        }
+        
+        if let push_status = getData(key: Const.shared.TEMP_PUSH_STATUS) {
+            saveData(key: Const.shared.PUSH_STATUS, value: push_status)
+            dict["is_using_push"] = push_status
+        } else {
+            if let push_status = getData(key: Const.shared.PUSH_STATUS) {
+                dict["is_using_push"] = push_status
+            }
+        }
+         
+        if let push_time = getData(key: Const.shared.TEMP_PUSH_TIME) {
+            saveData(key: Const.shared.PUSH_TIME, value: push_time)
+            dict["hhmm"] = push_time
+        } else {
+            if let push_time = getData(key: Const.shared.PUSH_TIME) {
+                dict["hhmm"] = push_time
+            }
+        }
+        
+
+        UserService.shared.registerPushData(dictionary: dict) { [self] in
+            printDebug("[handleFCMToken] success!")
+            self.navigationController?.popViewController(animated: true)
+        }
+
+       
+
         
     }
     

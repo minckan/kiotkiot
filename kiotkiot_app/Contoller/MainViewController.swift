@@ -98,10 +98,10 @@ class MainViewController: UICollectionViewController {
 //        }
         
         guard let uuid : String = getData(key: Const.shared.UUID) else {return}
+        let gender = Gender(rawValue: getData(key: Const.shared.USER_GENDER) ?? "")
         
         
-        
-        WeatherService.shared.fetchRecommendationCloth(id: uuid, gender: .W, pos: position)
+        WeatherService.shared.fetchRecommendationCloth(id: uuid, gender: gender ?? .W, pos: position)
         { info in
             
             DispatchQueue.main.async {
@@ -127,9 +127,10 @@ class MainViewController: UICollectionViewController {
     @objc func handleFCMToken(_ notification: Notification) {
         guard let deviceId = getData(key:Const.shared.UUID) else {return}
         let pushStatus = Bool(getData(key: Const.shared.PUSH_STATUS) ?? "false") ?? false
-        let pushTime = getData(key: Const.shared.PUSH_TIME) ?? ""
+        let pushTime = getData(key: Const.shared.PUSH_TIME) ?? "08:00"
         if let userInfo = notification.userInfo {
             if let token = userInfo["token"] {
+                saveData(key: Const.shared.PUSH_ID, value: token)
                 let dict: [String: Any] = ["device_id": deviceId, "push_id": token as! String, "is_using_push": pushStatus, "hhmm": pushTime]
                 
                 UserService.shared.registerPushData(dictionary: dict) {
