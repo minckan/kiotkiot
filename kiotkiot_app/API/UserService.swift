@@ -17,8 +17,8 @@ struct UserService {
     func registerDeviceId(uuid: String, completionHandler: @escaping()->Void) {
         let url = User_API_URL + "/me"
         let params = ["device_id" : uuid] as Dictionary
-
         
+        Loading.showLoading()
         BaseService.session.request(
             url,
             method: .post,
@@ -28,7 +28,9 @@ struct UserService {
         )
         .validate(statusCode: 200..<300)
         .response { response in
+            Loading.hideLoading()
             switch response.result {
+                
                 
             case .success(_):
                 completionHandler()
@@ -43,6 +45,8 @@ struct UserService {
     func registerPushData(dictionary: Dictionary<String, Any>, completionHandler: @escaping()->Void) {
         let url = User_API_URL + "/me/push"
         
+        Loading.showLoading()
+        
         BaseService.session.request(
             url,
             method: .post,
@@ -52,6 +56,7 @@ struct UserService {
         )
         .validate(statusCode: 200..<300)
         .response { response in
+            Loading.hideLoading()
             switch response.result {
                 
             case .success(_):

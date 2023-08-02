@@ -53,6 +53,8 @@ struct WeatherService {
     func fetchRecommendationCloth(id: String, gender: Gender, pos: Position,
                                           completionHandler: @escaping(RecommendationModel)->Void
     ) {
+        
+        Loading.showLoading()
         let url = BASE_API_URL + "/recommendation/clothing"
         
         let body : Parameters = [
@@ -73,6 +75,47 @@ struct WeatherService {
         )
         .validate(statusCode: 200..<300)
         .responseDecodable(of: RecommendationModel.self) { response in
+            
+            Loading.hideLoading()
+            
+            switch response.result {
+
+            case .success(let data):
+                completionHandler(data)
+            case .failure(let error):
+                printErrorWithLabel(label: "fetchRecommendationCloth", message: error.localizedDescription)
+            }
+        }
+    }
+    
+    func refreshRecommendationCloth(id: String, gender: Gender, pos: Position,
+                                          completionHandler: @escaping(RecommendationModel)->Void
+    ) {
+        
+        Loading.showLoading()
+        let url = BASE_API_URL + "/recommendation/clothing/refresh"
+        
+        let body : Parameters = [
+            "device_id" : id,
+            "sex": gender.rawValue,
+            "coordinate": [
+                "latitude": pos.lat,
+                "longitude": pos.lon
+            ]
+        ]
+
+        BaseService.session.request(
+            url,
+            method: .post,
+            parameters: body,
+            encoding: JSONEncoding.default,
+            headers: httpHeaders
+        )
+        .validate(statusCode: 200..<300)
+        .responseDecodable(of: RecommendationModel.self) { response in
+            
+            Loading.hideLoading()
+            
             switch response.result {
 
             case .success(let data):

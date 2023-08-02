@@ -38,6 +38,7 @@
 		8C622EF72A41A2C6005F6130 /* SettingController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C622EF62A41A2C6005F6130 /* SettingController.swift */; };
 		8C689C252A662A3A0048B84D /* APIEventLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C689C242A662A3A0048B84D /* APIEventLogger.swift */; };
 		8C689C272A662A890048B84D /* BaseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C689C262A662A890048B84D /* BaseService.swift */; };
+		8C6CD5452A7A4B32008C0468 /* Loading.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C6CD5442A7A4B32008C0468 /* Loading.swift */; };
 		8C753CF02A455E1200CEE000 /* SettingViewHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C753CEF2A455E1200CEE000 /* SettingViewHeader.swift */; };
 		8C75B7AD2A6A146200CE5DB2 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8C75B7AC2A6A146200CE5DB2 /* GoogleService-Info.plist */; };
 		8C75B7B12A6A1A5800CE5DB2 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 8C75B7B02A6A1A5800CE5DB2 /* FirebaseAnalytics */; };
@@ -86,6 +87,7 @@
 		8C622EF62A41A2C6005F6130 /* SettingController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingController.swift; sourceTree = "<group>"; };
 		8C689C242A662A3A0048B84D /* APIEventLogger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIEventLogger.swift; sourceTree = "<group>"; };
 		8C689C262A662A890048B84D /* BaseService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseService.swift; sourceTree = "<group>"; };
+		8C6CD5442A7A4B32008C0468 /* Loading.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Loading.swift; sourceTree = "<group>"; };
 		8C753CEF2A455E1200CEE000 /* SettingViewHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewHeader.swift; sourceTree = "<group>"; };
 		8C75B7AC2A6A146200CE5DB2 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		8C9614CD2A33263B007BDE73 /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
@@ -208,6 +210,7 @@
 				8C4F057F2A316478003BBB70 /* Constant.swift */,
 				8C622EF42A41408B005F6130 /* Share.swift */,
 				8C689C242A662A3A0048B84D /* APIEventLogger.swift */,
+				8C6CD5442A7A4B32008C0468 /* Loading.swift */,
 			);
 			path = Util;
 			sourceTree = "<group>";
@@ -358,6 +361,7 @@
 				8C568F4D2A2DA53800A925BF /* AppDelegate.swift in Sources */,
 				8CADE10C2A301FDD005AF17A /* MainViewHeader.swift in Sources */,
 				8CADE10A2A301559005AF17A /* TodaysWeatherListViewCell.swift in Sources */,
+				8C6CD5452A7A4B32008C0468 /* Loading.swift in Sources */,
 				8CADE1142A30730E005AF17A /* Preview.swift in Sources */,
 				8C622EF72A41A2C6005F6130 /* SettingController.swift in Sources */,
 				8C568F4F2A2DA53800A925BF /* SceneDelegate.swift in Sources */,

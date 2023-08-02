@@ -54,6 +54,7 @@ class MainViewController: UICollectionViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
   
+      
         
         registerAndCheckUUID()
         getCurrentPosition()
@@ -91,12 +92,7 @@ class MainViewController: UICollectionViewController {
         collectionView.refreshControl?.beginRefreshing()
         printWithLabel(label: "getWeatherData", message: currentPosition)
         guard let position = currentPosition else {return}
-//        WeatherService.shared.fetchWeatherData(pos: position) { weatherInfo  in
-//            self.weatherInfo = weatherInfo
-//            printDebug(weatherInfo.fcs_weathers)
-//            self.collectionView.reloadData()
-//        }
-        
+
         guard let uuid : String = getData(key: Const.shared.UUID) else {return}
         let gender = Gender(rawValue: getData(key: Const.shared.USER_GENDER) ?? "")
         
@@ -158,7 +154,34 @@ class MainViewController: UICollectionViewController {
         
     
     @objc func handleRefresh() {
-        getWeatherData()
+        collectionView.refreshControl?.beginRefreshing()
+
+        guard let position = currentPosition else {return}
+
+        guard let uuid : String = getData(key: Const.shared.UUID) else {return}
+        let gender = Gender(rawValue: getData(key: Const.shared.USER_GENDER) ?? "")
+        
+        
+        WeatherService.shared.refreshRecommendationCloth(id: uuid, gender: gender ?? .W, pos: position)
+        { info in
+            
+            DispatchQueue.main.async {
+                self.info = info
+                self.clothings = []
+
+                let clothingsInfo = info.recommendationClothing
+                
+                let mirror = Mirror(reflecting: clothingsInfo)
+                for case let (label?, value as ClothingDetails) in mirror.children {
+                    if value.image != nil {
+                        self.clothings.append(Clothings(key: label, detail: value))
+                    }
+                }
+                
+            }
+            
+            self.collectionView.refreshControl?.endRefreshing()
+        }
     }
     
     @objc func appCameToForeground() {
