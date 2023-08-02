@@ -80,7 +80,17 @@ class TodaysWeatherView : UIView {
         weatherLabel.text = weather.weatherText
         weatherImage.image = weather.weatherImg
         temperatureLabel.text = weather.temperature
+        
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+            // 1초 후에 실행될 코드를 여기에 작성합니다.
+            print("1초 후에 실행되었습니다.")
+            saveViewAsImage(view: self)
+        }
+        
+    
     }
+    
     
     private func configureBackground() {
         if let status = weatherStatus {
@@ -117,7 +127,7 @@ class TodaysWeatherView : UIView {
             
             
             
-            saveViewAsImage(view: self)
+       
         }
        
     }

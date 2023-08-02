@@ -38,7 +38,8 @@ func saveViewAsImage(view: UIView) {
         let fileURL = FileManager.default.temporaryDirectory.appendingPathComponent("todays_weather.png")
         do {
             try imageData.write(to: fileURL)
-            print("[SAVE_VIEW] 이미지 저장 성공: \(fileURL)")
+            print("[SAVE_VIEW] 이미지 저장 성공: \(fileURL.absoluteString)")
+            saveData(key: Const.shared.SHARE_IMAGE, value: fileURL.absoluteString)
             
         } catch {
             print("[SAVE_VIEW] 이미지 저장 실패: \(error)")

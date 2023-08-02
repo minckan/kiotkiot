@@ -37,15 +37,26 @@ class LinkPresentationItemSource: NSObject, UIActivityItemSource {
 
 func getMetadataForSharingManually(title: String, url: URL?, fileName: String?, fileType: String?) -> LPLinkMetadata {
     let linkMetaData = LPLinkMetadata()
+    let fileURL = getData(key: Const.shared.SHARE_IMAGE)
     
-    if let fileName = fileName {
-        let path = Bundle.main.path(forResource: fileName, ofType: fileType)
-        linkMetaData.iconProvider = NSItemProvider(contentsOf: URL(fileURLWithPath: path ?? ""))
+    
+    if let fileURL = fileURL {
+      
+      
+        linkMetaData.iconProvider = NSItemProvider(contentsOf: URL(string: fileURL))
+        // 이미지 파일의 URL을 NSItemProvider를 통해 제공
+        linkMetaData.imageProvider = NSItemProvider(contentsOf:  URL(string: fileURL))
+        
+
+        
     }
+    
     if let url = url {
         linkMetaData.originalURL = url
     }
-   
+
     linkMetaData.title = title
     return linkMetaData
+
+
 }
