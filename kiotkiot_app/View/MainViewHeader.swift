@@ -162,4 +162,8 @@ class MainViewHeader : UICollectionReusableView {
         })
         configureUI()
     }
+    
+    func getViewAsImage() -> UIImage? {
+        return weatherView.getViewAsImage()
+    }
 }

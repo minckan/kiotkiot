@@ -147,6 +147,14 @@ class SettingViewCell : UICollectionViewCell {
                 datePicker.setDate(date, animated: true)
             }
             
+//            if let onOff = getData(key: Const.shared.PUSH_STATUS) {
+//                if onOff == "true" {
+//                    datePicker.subviews[0].backgroundColor = .weatherBlue
+//                }
+//            }
+
+        
+            
             datePicker.addTarget(self, action: #selector(handleTimeChanged), for: .valueChanged)
             
             view = datePicker
@@ -157,6 +165,7 @@ class SettingViewCell : UICollectionViewCell {
             segmentedControl.insertSegment(withTitle: "남", at: 0, animated: true)
             segmentedControl.insertSegment(withTitle: "여", at: 1, animated: true)
             segmentedControl.snp.makeConstraints({$0.width.equalTo(100)})
+            segmentedControl.selectedSegmentTintColor = UIColor.weatherBlue
         
             let savedGender = getData(key: Const.shared.USER_GENDER) ?? Gender.W.rawValue
             

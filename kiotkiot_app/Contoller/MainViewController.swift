@@ -17,6 +17,7 @@ import LinkPresentation
 
 class MainViewController: UICollectionViewController {
     // MARK: Properties
+    var headerView: MainViewHeader?
     
     private var isAbleToReload = true
     
@@ -53,8 +54,7 @@ class MainViewController: UICollectionViewController {
     // MARK: Lifecycles
     override func viewDidLoad() {
         super.viewDidLoad()
-  
-      
+ 
         
         registerAndCheckUUID()
         getCurrentPosition()
@@ -146,8 +146,8 @@ class MainViewController: UICollectionViewController {
     }
     
     @objc func handleShareButtonTapped() {
-
-        self.metaData = getMetadataForSharingManually(title: "오늘의 기온별 옷차림을 공유해보세요!", url: nil, fileName: nil, fileType: nil)
+        guard let image = self.headerView?.getViewAsImage() else {return}
+        self.metaData = getMetadataForSharingManually(title: "지금 날씨를 공유해보세요!", url: nil, fileName: nil, fileType: nil, image: image)
         shareURLWithMetadata(metadata: metaData)
 
     }
@@ -294,12 +294,15 @@ class MainViewController: UICollectionViewController {
         
         let activityVC = UIActivityViewController(activityItems: [metadataItemSource], applicationActivities: nil)
         activityVC.popoverPresentationController?.sourceView = self.view
-
+        
+        activityVC.excludedActivityTypes = [.saveToCameraRoll]
+        activityVC.popoverPresentationController?.sourceView = self.view
         
         
         // 공유하기 기능 중 제외할 기능이 있을때 사용
 //        activityVC.excludedActivityTypes = [UIActivity.ActivityType.airDrop, UIActivity.ActivityType.addToReadingList]
         self.present(activityVC, animated: true)
+
     }
 
 }
@@ -311,6 +314,8 @@ extension MainViewController {
     
     override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: MainViewHeader.identifier, for: indexPath) as! MainViewHeader
+        
+        headerView = header
         
         if let weatherInfo = info?.weather {
        

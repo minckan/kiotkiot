@@ -82,11 +82,11 @@ class TodaysWeatherView : UIView {
         temperatureLabel.text = weather.temperature
         
         
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
-            // 1초 후에 실행될 코드를 여기에 작성합니다.
-            print("1초 후에 실행되었습니다.")
-            saveViewAsImage(view: self)
-        }
+//        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+//            // 1초 후에 실행될 코드를 여기에 작성합니다.
+//            print("1초 후에 실행되었습니다.")
+//            saveViewAsImage(view: self)
+//        }
         
     
     }
@@ -95,7 +95,8 @@ class TodaysWeatherView : UIView {
     private func configureBackground() {
         if let status = weatherStatus {
             bounds = CGRect(origin: CGPoint(x: 0, y: 0), size: CGSize(width: UIScreen.main.bounds.width - 40, height: 280))
-            setGradient(status.background)
+            backgroundColor = status.background.color2
+            self.setGradient(status.background)
             
             layer.cornerRadius = 8
             layer.masksToBounds = true
@@ -123,13 +124,13 @@ class TodaysWeatherView : UIView {
                 make.bottom.equalTo(self).offset(-25)
                 make.left.right.equalTo(self)
             }
-            
-            
-            
-            
        
         }
        
+    }
+    
+    func getViewAsImage() -> UIImage? {
+       return self.transfromToImage()
     }
     
 }
