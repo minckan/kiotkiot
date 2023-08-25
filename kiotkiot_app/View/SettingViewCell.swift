@@ -146,15 +146,6 @@ class SettingViewCell : UICollectionViewCell {
                 guard let date = dateFormmatter.date(from: "08:00") else { return  }
                 datePicker.setDate(date, animated: true)
             }
-            
-//            if let onOff = getData(key: Const.shared.PUSH_STATUS) {
-//                if onOff == "true" {
-//                    datePicker.subviews[0].backgroundColor = .weatherBlue
-//                }
-//            }
-
-        
-            
             datePicker.addTarget(self, action: #selector(handleTimeChanged), for: .valueChanged)
             
             view = datePicker
