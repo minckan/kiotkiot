@@ -33,14 +33,20 @@ class MainViewController: UICollectionViewController {
     var uuid: String?
     private var currentPosition:Position? {
         didSet(oldValue) {
-            if (oldValue != currentPosition) {
-                printWithLabel(label: "getWeatherData", message: "\(oldValue) AND \(currentPosition)")
-                getWeatherData()
+            getWeatherData()
+            if (oldValue == nil) {
+                getClothingData()
             }
             
         }
     }
     private var info : RecommendationModel? {
+        didSet {
+            self.collectionView.reloadData()
+        }
+    }
+    
+    private var weatherInfo : WeatherInfo? {
         didSet {
             self.collectionView.reloadData()
         }
@@ -62,10 +68,10 @@ class MainViewController: UICollectionViewController {
         configureUI()
         configureNavBar()
         setupCollectionView()
+       
 
         NotificationCenter.default.addObserver(self, selector: #selector(appCameToForeground), name: UIApplication.didBecomeActiveNotification, object: nil)
-        
-        NotificationCenter.default.addObserver(self, selector: #selector(handleFCMToken), name: NSNotification.Name("FCMToken"), object: nil)
+    
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -89,14 +95,19 @@ class MainViewController: UICollectionViewController {
     
     
     func getWeatherData() {
-        collectionView.refreshControl?.beginRefreshing()
-        printWithLabel(label: "getWeatherData", message: currentPosition)
+        guard let position = currentPosition else {return}
+
+        WeatherService.shared.fetchWeatherData(pos: position) { weatherInfo in
+            self.weatherInfo = weatherInfo
+        }
+    }
+    
+    func getClothingData() {
         guard let position = currentPosition else {return}
 
         guard let uuid : String = getData(key: Const.shared.UUID) else {return}
         let gender = Gender(rawValue: getData(key: Const.shared.USER_GENDER) ?? "")
-        
-        
+
         WeatherService.shared.fetchRecommendationCloth(id: uuid, gender: gender ?? .W, pos: position)
         { info in
             
@@ -120,25 +131,12 @@ class MainViewController: UICollectionViewController {
     }
     
     // MARK: Selectors
-    @objc func handleFCMToken(_ notification: Notification) {
-        guard let deviceId = getData(key:Const.shared.UUID) else {return}
-        let pushStatus = Bool(getData(key: Const.shared.PUSH_STATUS) ?? "false") ?? false
-        let pushTime = getData(key: Const.shared.PUSH_TIME) ?? "08:00"
-        if let userInfo = notification.userInfo {
-            if let token = userInfo["token"] {
-                saveData(key: Const.shared.PUSH_ID, value: token)
-                let dict: [String: Any] = ["device_id": deviceId, "push_id": token as! String, "is_using_push": pushStatus, "hhmm": pushTime]
-                
-                UserService.shared.registerPushData(dictionary: dict) {
-                    printDebug("[handleFCMToken] success!")
-                }
-            }
-        }
-    }
     @objc func handleSettingButtonTapped() {
         let layout = UICollectionViewFlowLayout()
+        let controller = SettingController(collectionViewLayout: layout)
         layout.minimumLineSpacing = 5
-        navigationController?.pushViewController(SettingController(collectionViewLayout: layout), animated: true)
+        navigationController?.pushViewController(controller, animated: true)
+        controller.delegate = self
     }
     
     @objc func handleNotificationButtonTapped() {
@@ -154,34 +152,8 @@ class MainViewController: UICollectionViewController {
         
     
     @objc func handleRefresh() {
-        collectionView.refreshControl?.beginRefreshing()
-
-        guard let position = currentPosition else {return}
-
-        guard let uuid : String = getData(key: Const.shared.UUID) else {return}
-        let gender = Gender(rawValue: getData(key: Const.shared.USER_GENDER) ?? "")
-        
-        
-        WeatherService.shared.refreshRecommendationCloth(id: uuid, gender: gender ?? .W, pos: position)
-        { info in
-            
-            DispatchQueue.main.async {
-                self.info = info
-                self.clothings = []
-
-                let clothingsInfo = info.recommendationClothing
-                
-                let mirror = Mirror(reflecting: clothingsInfo)
-                for case let (label?, value as ClothingDetails) in mirror.children {
-                    if value.image != nil {
-                        self.clothings.append(Clothings(key: label, detail: value))
-                    }
-                }
-                
-            }
-            
-            self.collectionView.refreshControl?.endRefreshing()
-        }
+        getWeatherData()
+        getClothingData()
     }
     
     @objc func appCameToForeground() {
@@ -263,6 +235,37 @@ class MainViewController: UICollectionViewController {
         }
     }
     
+    func refeshData() {
+        guard let position = currentPosition else {return}
+
+        guard let uuid : String = getData(key: Const.shared.UUID) else {return}
+        let gender = Gender(rawValue: getData(key: Const.shared.USER_GENDER) ?? "")
+        
+        
+        
+        
+        WeatherService.shared.refreshRecommendationCloth(id: uuid, gender: gender ?? .W, pos: position)
+        { info in
+            
+            DispatchQueue.main.async {
+                self.info = info
+                self.clothings = []
+
+                let clothingsInfo = info.recommendationClothing
+                
+                let mirror = Mirror(reflecting: clothingsInfo)
+                for case let (label?, value as ClothingDetails) in mirror.children {
+                    if value.image != nil {
+                        self.clothings.append(Clothings(key: label, detail: value))
+                        Loading.hideLoading()
+                    }
+                }
+                
+            }
+            
+        }
+    }
+    
     func fetchHtmlParsingResultWill(urlString: String, completion: @escaping(_ href: String)->Void) {
         DispatchQueue.main.async {
             UIApplication.shared.isNetworkActivityIndicatorVisible = true
@@ -304,6 +307,8 @@ class MainViewController: UICollectionViewController {
         self.present(activityVC, animated: true)
 
     }
+    
+    
 
 }
 
@@ -317,8 +322,7 @@ extension MainViewController {
         
         headerView = header
         
-        if let weatherInfo = info?.weather {
-       
+        if let weatherInfo = weatherInfo {
             header.weatherInfo = weatherInfo
         }
         
@@ -406,7 +410,7 @@ extension MainViewController : CLLocationManagerDelegate {
 
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
 
-        if let location = locations.last {
+        if let location = locations.first {
             currentPosition = Position(lat: location.coordinate.latitude, lon: location.coordinate.longitude)
             
             locationManager.stopUpdatingLocation()
@@ -431,5 +435,11 @@ extension MainViewController : MainViewHeaderDelegate {
     func refetchLocation() {
         printDebug("refetchLocation called")
         locationManager.startUpdatingLocation()
+    }
+}
+
+extension MainViewController : SettingControllerDelegate {
+    func settingHandler() {
+        refeshData()
     }
 }

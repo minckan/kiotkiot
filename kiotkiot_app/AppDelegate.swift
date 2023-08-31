@@ -68,7 +68,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             printDebug("[didReceiveRemoteNotification] Message ID : \(messageID)")
         }
         
-        printDebug("[didReceiveRemoteNotification] userInfo is \(userInfo)")
+        printDebug("[didReceiveRemoteNotification] userInfo is \(userInfo["message"])")
     }
     
     func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any]) async -> UIBackgroundFetchResult {
@@ -78,7 +78,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             printDebug("[didReceiveRemoteNotification] Message ID : \(messageID)")
         }
         
-        printDebug("[didReceiveRemoteNotification] userInfo is \(userInfo)")
+        printDebug("[didReceiveRemoteNotification] userInfo is \(userInfo["message"]))")
         
         return UIBackgroundFetchResult.newData
     }
@@ -97,7 +97,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 extension AppDelegate : UNUserNotificationCenterDelegate {
     func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification) async -> UNNotificationPresentationOptions {
+
+        
         let userInfo = notification.request.content.userInfo
+        
+        print("[willPresent] \(userInfo[gcmMessageIDKey])")
         
         if let messageID = userInfo[gcmMessageIDKey] {
             printDebug("[willPresent] Message ID: \(messageID)")
@@ -105,12 +109,16 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
         
         printDebug("[willPresent] userInfo is \(userInfo)")
             
-        return [[.sound]]
+        return [[.sound, .badge, .banner, .list]]
     }
     
     func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse) async {
-        let userInfo = response.notification.request.content.userInfo
+        print("Body: \(response.notification.request.content.body)")
+        print("userInfo: \(response.notification.request.content.userInfo)")
+
         
+        let userInfo = response.notification.request.content.userInfo
+        print("[didReceive] \(userInfo[gcmMessageIDKey])")
         if let messgeID = userInfo[gcmMessageIDKey] {
             printDebug("[didReceive] Message ID: \(messgeID)")
         }
@@ -123,7 +131,18 @@ extension AppDelegate : MessagingDelegate {
     func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String?) {
         printDebug("Firebase registration token: \(String(describing: fcmToken))")
         
-        let dataDict: [String: String] = ["token": fcmToken ?? ""]
-        NotificationCenter.default.post(name: Notification.Name("FCMToken"), object: nil, userInfo: dataDict)
+        
+        guard let deviceId = getData(key:Const.shared.UUID) else {return}
+        let pushStatus = Bool(getData(key: Const.shared.PUSH_STATUS) ?? "false") ?? false
+        let pushTime = getData(key: Const.shared.PUSH_TIME) ?? "08:00"
+        
+        if let token = fcmToken {
+            saveData(key: Const.shared.PUSH_ID, value: token)
+            let dict: [String: Any] = ["device_id": deviceId, "push_id": token, "is_using_push": pushStatus, "hhmm": pushTime]
+            
+            UserService.shared.registerPushData(dictionary: dict) {
+                printDebug("[handleFCMToken] success!")
+            }
+        }
     }
 }

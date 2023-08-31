@@ -139,7 +139,7 @@ class MainViewHeader : UICollectionReusableView {
         
         let weather = Weather(weatherData: dict)
         
-        printWithLabel(label: "MainViewHeader:currStatus", message: viewModel.weatherStatusList)
+        printWithLabel(label: "MainViewHeader:currStatus", message: currStatus)
         
 
         weatherView.weather = weather

@@ -30,8 +30,14 @@ struct Menu {
     }
 }
 
+protocol SettingControllerDelegate : AnyObject {
+    func settingHandler()
+}
+
 class SettingController : UICollectionViewController {
     // MARK: - Properties
+    weak var delegate : SettingControllerDelegate?
+    
     private let menuList : [[Menu]] = [
         [Menu(iconName: nil, title: "User_0513", type: .nonfunctional)],
         [Menu(iconName: "user", title: "성별", type: .radio)],
@@ -84,6 +90,7 @@ class SettingController : UICollectionViewController {
         UserService.shared.registerPushData(dictionary: dict) { [self] in
             printDebug("[handleFCMToken] success!")
             self.navigationController?.popViewController(animated: true)
+            self.delegate?.settingHandler()
         }
 
        
