@@ -74,6 +74,8 @@ class SettingController : UICollectionViewController {
         } else {
             if let push_status = getData(key: Const.shared.PUSH_STATUS) {
                 dict["is_using_push"] = push_status
+            } else {
+                dict["is_using_push"] = "false"
             }
         }
          
@@ -83,6 +85,8 @@ class SettingController : UICollectionViewController {
         } else {
             if let push_time = getData(key: Const.shared.PUSH_TIME) {
                 dict["hhmm"] = push_time
+            } else {
+                dict["hhmm"] = "08:00"
             }
         }
         

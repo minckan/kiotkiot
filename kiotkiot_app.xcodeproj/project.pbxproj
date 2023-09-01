@@ -53,6 +53,7 @@
 		8CADE1142A30730E005AF17A /* Preview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CADE1132A30730E005AF17A /* Preview.swift */; };
 		8CADE1172A30848D005AF17A /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 8CADE1162A30848D005AF17A /* Alamofire */; };
 		8CD0AB962A32FBE9002AD65F /* SDWebImage in Frameworks */ = {isa = PBXBuildFile; productRef = 8CD0AB952A32FBE9002AD65F /* SDWebImage */; };
+		8CE34D2F2AA19D8000725304 /* Gender.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CE34D2E2AA19D8000725304 /* Gender.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -98,6 +99,7 @@
 		8CADE10F2A305FD4005AF17A /* Weather.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Weather.swift; sourceTree = "<group>"; };
 		8CADE1112A306ADC005AF17A /* View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = View.swift; sourceTree = "<group>"; };
 		8CADE1132A30730E005AF17A /* Preview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Preview.swift; sourceTree = "<group>"; };
+		8CE34D2E2AA19D8000725304 /* Gender.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Gender.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -178,6 +180,7 @@
 			children = (
 				8CADE10F2A305FD4005AF17A /* Weather.swift */,
 				8C4F05832A319645003BBB70 /* Position.swift */,
+				8CE34D2E2AA19D8000725304 /* Gender.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -355,6 +358,7 @@
 				8C4F05802A316478003BBB70 /* Constant.swift in Sources */,
 				8C689C272A662A890048B84D /* BaseService.swift in Sources */,
 				8C092C692A428A74006DAD41 /* SettingViewCell.swift in Sources */,
+				8CE34D2F2AA19D8000725304 /* Gender.swift in Sources */,
 				8C568F7C2A2DD8D900A925BF /* TodaysWeatherView.swift in Sources */,
 				8C568F512A2DA53800A925BF /* MainViewController.swift in Sources */,
 				8C568F7A2A2DD64D00A925BF /* Helpers.swift in Sources */,

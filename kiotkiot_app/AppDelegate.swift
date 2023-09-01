@@ -142,6 +142,7 @@ extension AppDelegate : MessagingDelegate {
             
             UserService.shared.registerPushData(dictionary: dict) {
                 printDebug("[handleFCMToken] success!")
+                Loading.hideLoading()
             }
         }
     }

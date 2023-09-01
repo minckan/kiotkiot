@@ -26,7 +26,6 @@ class Loading {
         
         loadingIndicatorView.startAnimating()
         
-        printDebug("LOADING START")
     }
     
     static func hideLoading() {

@@ -75,6 +75,7 @@ class SettingViewCell : UICollectionViewCell {
     
     @objc func handleTimeChanged(datepic: UIDatePicker) {
         let formmatedValue = getDataFormmatter().string(from:datepic.date)
+        
         saveData(key: Const.shared.TEMP_PUSH_TIME, value:formmatedValue)
     }
     

@@ -30,8 +30,6 @@ struct UserService {
         .response { response in
             Loading.hideLoading()
             switch response.result {
-                
-                
             case .success(_):
                 completionHandler()
             case .failure(let error):
@@ -56,7 +54,7 @@ struct UserService {
         )
         .validate(statusCode: 200..<300)
         .response { response in
-            Loading.hideLoading()
+            
             switch response.result {
                 
             case .success(_):

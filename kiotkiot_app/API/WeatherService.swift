@@ -8,10 +8,6 @@
 import Foundation
 import Alamofire
 
-enum Gender : String, CaseIterable {
-    case M = "M"
-    case W = "W"
-}
 
 struct WeatherService {
     static let shared = WeatherService()
@@ -19,7 +15,6 @@ struct WeatherService {
     let httpHeaders : HTTPHeaders =  ["Content-Type":"application/json", "Accept":"application/json"]
     
     func fetchWeatherData(pos: Position, completionHandler: @escaping(WeatherInfo)->Void) {
-//        Loading.showLoading()
         let url = BASE_API_URL + "/weather"
         
         let params : Parameters = [
@@ -55,7 +50,7 @@ struct WeatherService {
                                           completionHandler: @escaping(RecommendationModel)->Void
     ) {
         
-        
+        printDebug("fetchRecommendationCloth")
         let url = BASE_API_URL + "/recommendation/clothing"
         
         let body : Parameters = [
@@ -67,7 +62,7 @@ struct WeatherService {
             ]
         ]
 
-        BaseService.session.request(
+        AF.request(
             url,
             method: .post,
             parameters: body,
@@ -76,8 +71,6 @@ struct WeatherService {
         )
         .validate(statusCode: 200..<300)
         .responseDecodable(of: RecommendationModel.self) { response in
-            
-//            Loading.hideLoading()
             
             switch response.result {
 
@@ -92,8 +85,6 @@ struct WeatherService {
     func refreshRecommendationCloth(id: String, gender: Gender, pos: Position,
                                           completionHandler: @escaping(RecommendationModel)->Void
     ) {
-        
-        Loading.showLoading()
         let url = BASE_API_URL + "/recommendation/clothing/refresh"
         
         let body : Parameters = [
@@ -105,7 +96,7 @@ struct WeatherService {
             ]
         ]
 
-        BaseService.session.request(
+        AF.request(
             url,
             method: .post,
             parameters: body,
@@ -123,7 +114,6 @@ struct WeatherService {
                 completionHandler(data)
             case .failure(let error):
                 printErrorWithLabel(label: "fetchRecommendationCloth", message: error.localizedDescription)
-                Loading.hideLoading()
             }
         }
     }

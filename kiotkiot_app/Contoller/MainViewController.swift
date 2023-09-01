@@ -33,9 +33,13 @@ class MainViewController: UICollectionViewController {
     var uuid: String?
     private var currentPosition:Position? {
         didSet(oldValue) {
-            getWeatherData()
-            if (oldValue == nil) {
-                getClothingData()
+            
+            if (isAbleToReload) {
+                if (oldValue != currentPosition) {
+                    getClothingData()
+                }
+            } else {
+                isAbleToReload = true
             }
             
         }
@@ -60,8 +64,6 @@ class MainViewController: UICollectionViewController {
     // MARK: Lifecycles
     override func viewDidLoad() {
         super.viewDidLoad()
- 
-        
         registerAndCheckUUID()
         getCurrentPosition()
         
@@ -76,6 +78,14 @@ class MainViewController: UICollectionViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        
+        printDebug("viewWillAppear")
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        printDebug("viewDidAppear")
     }
     
     // MARK: - Apis
@@ -144,13 +154,14 @@ class MainViewController: UICollectionViewController {
     }
     
     @objc func handleShareButtonTapped() {
+        printDebug("handleShareButtonTapped")
         guard let image = self.headerView?.getViewAsImage() else {return}
+
+        printWithLabel(label: "handleShareButtonTapped:image", message: image)
         self.metaData = getMetadataForSharingManually(title: "지금 날씨를 공유해보세요!", url: nil, fileName: nil, fileType: nil, image: image)
         shareURLWithMetadata(metadata: metaData)
 
     }
-        
-    
     @objc func handleRefresh() {
         getWeatherData()
         getClothingData()
@@ -213,6 +224,7 @@ class MainViewController: UICollectionViewController {
         button.setImage(UIImage(named: imageName), for: .normal)
         button.tintColor = UIColor.darkText
         button.addTarget(self, action: selector, for: .touchUpInside)
+        button.sizeToFit()
         return barItem
     }
     
@@ -235,18 +247,19 @@ class MainViewController: UICollectionViewController {
         }
     }
     
-    func refeshData() {
+    func refreshData() {
+        Loading.showLoading()
         guard let position = currentPosition else {return}
 
         guard let uuid : String = getData(key: Const.shared.UUID) else {return}
         let gender = Gender(rawValue: getData(key: Const.shared.USER_GENDER) ?? "")
         
         
-        
+     
         
         WeatherService.shared.refreshRecommendationCloth(id: uuid, gender: gender ?? .W, pos: position)
         { info in
-            
+         
             DispatchQueue.main.async {
                 self.info = info
                 self.clothings = []
@@ -297,13 +310,7 @@ class MainViewController: UICollectionViewController {
         
         let activityVC = UIActivityViewController(activityItems: [metadataItemSource], applicationActivities: nil)
         activityVC.popoverPresentationController?.sourceView = self.view
-        
-        activityVC.excludedActivityTypes = [.saveToCameraRoll]
-        activityVC.popoverPresentationController?.sourceView = self.view
-        
-        
-        // 공유하기 기능 중 제외할 기능이 있을때 사용
-//        activityVC.excludedActivityTypes = [UIActivity.ActivityType.airDrop, UIActivity.ActivityType.addToReadingList]
+    
         self.present(activityVC, animated: true)
 
     }
@@ -322,7 +329,7 @@ extension MainViewController {
         
         headerView = header
         
-        if let weatherInfo = weatherInfo {
+        if let weatherInfo = info?.weather {
             header.weatherInfo = weatherInfo
         }
         
@@ -350,8 +357,6 @@ extension MainViewController {
         
 //        let controller = WebviewController(urlString: urlString)
 //        navigationController?.pushViewController(controller, animated: true)
-        
-        printDebug(urlString)
         
         DispatchQueue.global().async {
             self.fetchHtmlParsingResultWill(urlString: urlString) { href in
@@ -440,6 +445,6 @@ extension MainViewController : MainViewHeaderDelegate {
 
 extension MainViewController : SettingControllerDelegate {
     func settingHandler() {
-        refeshData()
+        refreshData()
     }
 }

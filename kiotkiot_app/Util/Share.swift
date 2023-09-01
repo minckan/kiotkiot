@@ -46,9 +46,7 @@ func getMetadataForSharingManually(title: String, url: URL?, fileName: String?, 
     if let url = url {
         linkMetaData.originalURL = url
     }
-
+    
     linkMetaData.title = title
     return linkMetaData
-
-
-}
+    }
